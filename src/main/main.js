@@ -29,13 +29,14 @@ const createTray = async () => {
 const createBarrageWindow = async () => {
   const display = screen.getPrimaryDisplay();
   const barrageWindow = new BrowserWindow({
-    width: display.size.width,
-    height: display.size.height,
+    width: process.env.PROD ? display.size.width : 1200,
+    height: process.env.PROD ? display.size.height : 800,
     x: 0,
     y: 0,
     frame: process.env.DEV,
     transparent: process.env.PROD,
     webPreferences: {
+      nodeIntegration: true,
       devTools: process.env.DEV
     }
   });

@@ -1,24 +1,32 @@
 <template>
-    <VueBaberrage :barrageList="data">
-    </VueBaberrage>
+    <vue-baberrage :isShow="true" :barrageList="data">
+        <template v-slot:default="slotProps">
+            <span style="color: white; font-size: 32px">
+                {{slotProps.item.msg}}
+            </span>
+        </template>
+    </vue-baberrage>
 </template>
 
 <script>
-    import VueBaberrage from 'vue-baberrage';
+    import {MESSAGE_TYPE} from 'vue-baberrage';
 
     export default {
         name: 'Barrage',
-        components: {
-            VueBaberrage
-        },
         data: function () {
             return {
-                data: ['Hello']
+                id: 0,
+                data: []
             };
         },
         methods: {
             put: function () {
-                this.data.push('Hello');
+                this.data.push({
+                    id: this.id++,
+                    msg: 'Hello, World!',
+                    time: 15,
+                    type: MESSAGE_TYPE.NORMAL
+                });
             }
         },
         mounted() {
