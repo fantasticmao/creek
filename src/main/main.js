@@ -2,10 +2,12 @@ import {app, BrowserWindow, Menu, screen, Tray} from 'electron';
 import config from "../common/config";
 
 /**
- * create  application tray
+ * create application tray
  */
+let tray = null;
+
 const createTray = async () => {
-  const tray = new Tray(config.imagePath.logo);
+  tray = new Tray(config.imagePath.logo);
   const contextMenu = Menu.buildFromTemplate([
     {label: 'Creek: On', enabled: false, icon: config.imagePath.serverOn},
     {label: 'Creek: Off', enabled: false, icon: config.imagePath.serverOff},
@@ -68,8 +70,9 @@ const startLocalServer = async () => {
   const port = process.env.LOCAL_SERVER_PORT;
   const host = process.env.LOCAL_SERVER_HOST;
   import('./server')
-      .then(module => {
-        server = module.default.listen(port, host, () => {
+      .then(module => module.default)
+      .then(app => {
+        server = app.listen(port, host, () => {
           console.log('start local server...');
         })
       })

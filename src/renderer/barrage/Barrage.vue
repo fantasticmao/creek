@@ -20,17 +20,33 @@
             };
         },
         methods: {
-            put: function () {
+            put: function (message) {
                 this.data.push({
                     id: this.id++,
-                    msg: 'Hello, World!',
+                    msg: message,
                     time: 15,
                     type: MESSAGE_TYPE.NORMAL
                 });
             }
         },
         mounted() {
-            setInterval(this.put, 1000)
+            setInterval(() => {
+                const self = this;
+                fetch(`http://${process.env.LOCAL_SERVER_HOST}:${process.env.LOCAL_SERVER_PORT}/dump`)
+                    .then(response => {
+                        return response.ok
+                            ? response.json()
+                            : Promise.reject(`request failed, response status: ${response.status}`);
+                    })
+                    .then(json => {
+                        if (json.data && json.data instanceof Array) {
+                            json.data.forEach(self.put);
+                        } else {
+                            return Promise.reject(`json format error: ${json}`);
+                        }
+                    })
+                    .catch(console.error);
+            }, 1000)
         }
     }
 </script>
