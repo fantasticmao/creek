@@ -1,31 +1,23 @@
-import http from 'http';
+import express from 'express';
 
-function putBarrage(request, response) {
-  response.writeHead(200, {'Content-Type': 'text/plain'});
-  response.end('OK\n');
-}
+const app = express();
 
-function takeBarrage(request, response) {
-  response.writeHead(200, {'Content-Type': 'application/json'});
-  response.end(JSON.stringify({
-    data: ["Hello, World!"]
-  }));
-}
+app.get('/', (request, response) => {
+  response.send('Hello, Creek!\n');
+});
 
-const server = http.createServer((request, response) => {
-  switch (request.url) {
-    case /^\/put\/?$/:
-      putBarrage(request, response);
-      break;
-    case /^\/take\/?$/:
-      takeBarrage(request, response);
-      break;
-    default:
-      response.writeHead(404, {'Content-Type': 'text/plain'});
-      response.end('404 Not Found\n');
+app.get('/put', (request, response) => {
+  if (!request.query.msg) {
+    response.send('\'msg\' must not be null\n');
+    return;
   }
-}).listen(8080, '0.0.0.0');
+  console.log(request.query.msg);
+  response.send('OK\n');
+});
 
-console.log('start local server...');
+app.get('/take', (request, response) => {
+  const data = {};
+  response.send(JSON.stringify(data));
+});
 
-export default server;
+export default app;

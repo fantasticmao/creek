@@ -31,7 +31,9 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       PROD: process.env.NODE_ENV === 'production',
-      DEV: process.env.NODE_ENV === 'development'
+      DEV: process.env.NODE_ENV === 'development',
+      LOCAL_SERVER_PORT: 9000,
+      LOCAL_SERVER_HOST: '0.0.0.0',
     }),
     new VueLoaderPlugin()
   ]

@@ -1,8 +1,6 @@
 import {app, BrowserWindow, Menu, screen, Tray} from 'electron';
 import config from "../common/config";
 
-let serverModule = null;
-
 /**
  * create  application tray
  */
@@ -64,9 +62,26 @@ const createConfigWindow = async () => {
 /**
  * get barrage data from local server
  */
+let server = null;
+
 const startLocalServer = async () => {
-  serverModule = import('./server');
-  return serverModule;
+  const port = process.env.LOCAL_SERVER_PORT;
+  const host = process.env.LOCAL_SERVER_HOST;
+  import('./server')
+      .then(module => {
+        server = module.default.listen(port, host, () => {
+          console.log('start local server...');
+        })
+      })
+      .catch(console.error);
+};
+
+const closeLocalServer = async () => {
+  if (server) {
+    server.close(() => {
+      console.log('close local server...');
+    });
+  }
 };
 
 app.whenReady()
@@ -78,11 +93,4 @@ app.on('window-all-closed', () => {
   // should not quit
 });
 
-app.on('quit', () => {
-  serverModule
-      .then(module => {
-        module.default.close();
-        console.log('close local server...');
-      })
-      .catch(console.error);
-});
+app.on('quit', closeLocalServer);
