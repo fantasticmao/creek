@@ -1,7 +1,7 @@
 <template>
     <vue-baberrage :isShow="true" :barrageList="data">
         <template v-slot:default="slotProps">
-            <span style="color: white; font-size: 32px">
+            <span class="barrage">
                 {{slotProps.item.msg}}
             </span>
         </template>
@@ -32,7 +32,8 @@
         mounted() {
             setInterval(() => {
                 const self = this;
-                fetch(`http://${process.env.LOCAL_SERVER_HOST}:${process.env.LOCAL_SERVER_PORT}/dump`)
+                const url = `http://${process.env.LOCAL_SERVER_HOST}:${process.env.LOCAL_SERVER_PORT}/dump?timestamp=${new Date().getTime()}`;
+                fetch(url)
                     .then(response => {
                         return response.ok
                             ? response.json()
@@ -40,7 +41,9 @@
                     })
                     .then(json => {
                         if (json.data && json.data instanceof Array) {
-                            json.data.forEach(self.put);
+                            json.data
+                                .map(item => item.msg)
+                                .forEach(self.put);
                         } else {
                             return Promise.reject(`json format error: ${json}`);
                         }
@@ -52,5 +55,8 @@
 </script>
 
 <style scoped>
-
+    .barrage {
+        color: #FFFFFF;
+        font-size: 32px;
+    }
 </style>

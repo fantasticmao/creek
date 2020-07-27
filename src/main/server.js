@@ -15,7 +15,7 @@ app.get('/push', (request, response) => {
     return;
   }
   console.log(`push message, ip: ${request.ip}, msg: ${request.query.msg}`);
-  data.push(request.query.msg);
+  data.push({msg: request.query.msg});
   response.send('OK\n');
 });
 
