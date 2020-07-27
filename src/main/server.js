@@ -3,6 +3,8 @@ import express from 'express';
 const app = express();
 let data = [];
 
+// server api
+
 app.get('/', (request, response) => {
   response.send('Hello, Creek!\n');
 });
@@ -32,4 +34,24 @@ app.get('/dump', (request, response) => {
   response.send(json);
 });
 
-export default app;
+// server lifecycle
+
+let server = null;
+
+const startServer = () => {
+  const port = process.env.LOCAL_SERVER_PORT;
+  const host = process.env.LOCAL_SERVER_HOST;
+  server = app.listen(port, host, () => {
+    console.log('start local server...');
+  });
+};
+
+const closeServer = () => {
+  if (server) {
+    server.close(() => {
+      console.log('close local server...');
+    });
+  }
+};
+
+export {startServer, closeServer};
