@@ -1,4 +1,4 @@
-import {app, Menu, Tray} from 'electron';
+import {app, Menu, shell, Tray} from 'electron';
 import config from "../common/config";
 import {closeBarrageWindow, createBarrageWindow} from './window-barrage';
 import {createConfigWindow} from './window-config';
@@ -14,8 +14,8 @@ let tray = null;
  */
 const menuTemplate = [
   {type: 'separator'},
+  {label: 'Check for Updates...', click: () => shell.openExternal(config.checkForUpdates)},
   {label: 'Preferences...', accelerator: 'Command+,', click: createConfigWindow},
-  {label: 'Check for Updates...'},
   {label: 'About Creek'},
   {type: 'separator'},
   {label: 'Quite Creek', accelerator: 'Command+Q', role: 'quit'},
@@ -27,6 +27,7 @@ const menuTemplateOn = [
     label: 'Turn Creek Off', accelerator: 'Command+S', click: () => {
       closeBarrageWindow().then(() => {
         if (tray) {
+          // TODO set server inactive logo
           tray.setContextMenu(Menu.buildFromTemplate(menuTemplateOff))
         }
       });
@@ -40,6 +41,7 @@ const menuTemplateOff = [
     label: 'Turn Creek On', accelerator: 'Command+S', click: () => {
       createBarrageWindow().then(() => {
         if (tray) {
+          // TODO set server active logo
           tray.setContextMenu(Menu.buildFromTemplate(menuTemplateOn));
         }
       });
