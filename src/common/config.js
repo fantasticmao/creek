@@ -6,7 +6,7 @@ export default {
   },
   htmlPath: {
     barrage: './dist/barrage.html',
-    preference: './dist/preferences.html',
+    preferences: './dist/preferences.html',
   },
   checkForUpdates: 'https://github.com/fantasticmao/creek/releases'
 };

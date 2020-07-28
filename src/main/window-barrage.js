@@ -1,36 +1,49 @@
 import {BrowserWindow, screen} from "electron";
 import config from "../common/config";
 
-let window = null;
-
 /**
- * create barrage window, which is transparent and frameless
+ * Barrage window, which is create by Electron BrowserWindow
+ * @see {@link https://www.electronjs.org/docs/api/browser-window} BrowserWindow
  */
-const createBarrageWindow = async () => {
-  const display = screen.getPrimaryDisplay();
-  window = new BrowserWindow({
-    width: process.env.PROD ? display.size.width : 1200,
-    height: process.env.PROD ? display.size.height : 800,
-    x: 0,
-    y: 0,
-    frame: process.env.DEV,
-    transparent: process.env.PROD,
-    webPreferences: {
-      nodeIntegration: true,
-      devTools: process.env.DEV
-    }
-  });
-  window.setIgnoreMouseEvents(process.env.PROD);
-  window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
-  await window.loadFile(config.htmlPath.barrage);
+class BarrageWindow {
+  /**
+   * BrowserWindow, create by Electron
+   */
+  window;
 
-  // TODO 支持 Vue-Devtools
-};
+  /**
+   * Create window
+   */
+  constructor() {
+    const display = screen.getPrimaryDisplay();
+    this.window = new BrowserWindow({
+      width: process.env.PROD ? display.size.width : 1200,
+      height: process.env.PROD ? display.size.height : 800,
+      x: 0,
+      y: 0,
+      frame: process.env.DEV,
+      transparent: process.env.PROD,
+      webPreferences: {
+        nodeIntegration: true,
+        devTools: process.env.DEV
+      }
+    });
 
-const closeBarrageWindow = async () => {
-  if (window) {
-    window.close();
+    this.window.setIgnoreMouseEvents(process.env.PROD);
+    this.window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
+    this.window.on('closed', () => console.debug('close barrage window...'));
+    this.window.loadFile(config.htmlPath.barrage)
+        .then(() => console.debug('create barrage window...'));
+
+    // TODO 支持 Vue-Devtools
   }
-};
 
-export {createBarrageWindow, closeBarrageWindow};
+  /**
+   * Close window
+   */
+  close() {
+    this.window.close();
+  }
+}
+
+export default BarrageWindow;

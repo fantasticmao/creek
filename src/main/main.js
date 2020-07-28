@@ -1,69 +1,21 @@
-import {app, Menu, shell, Tray} from 'electron';
-import config from "../common/config";
-import {closeBarrageWindow, createBarrageWindow} from './window-barrage';
-import {createConfigWindow} from './window-config';
-import {closeServer, startServer} from './server';
+import {app} from 'electron';
+import CreekServer from './server';
+import CreekTray from './tray';
 
-/**
- * application tray
- */
-let tray = null;
+// TODO read from config file
+const port = process.env.LOCAL_SERVER_PORT;
+const host = process.env.LOCAL_SERVER_HOST;
+const initStatus = false;
 
-/**
- * application tray menu
- */
-const menuTemplate = [
-  {type: 'separator'},
-  {label: 'Check for Updates...', click: () => shell.openExternal(config.checkForUpdates)},
-  {label: 'Preferences...', accelerator: 'Command+,', click: createConfigWindow},
-  {label: 'About Creek'},
-  {type: 'separator'},
-  {label: 'Quite Creek', accelerator: 'Command+Q', role: 'quit'},
-];
-const menuTemplateOn = [
-  {
-    label: 'Creek: On', enabled: false, icon: config.imagePath.serverOn
-  }, {
-    label: 'Turn Creek Off', accelerator: 'Command+S', click: () => {
-      closeBarrageWindow().then(() => {
-        if (tray) {
-          // TODO set server inactive logo
-          tray.setContextMenu(Menu.buildFromTemplate(menuTemplateOff))
-        }
-      });
-    }
-  }
-].concat(menuTemplate);
-const menuTemplateOff = [
-  {
-    label: 'Creek: Off', enabled: false, icon: config.imagePath.serverOff
-  }, {
-    label: 'Turn Creek On', accelerator: 'Command+S', click: () => {
-      createBarrageWindow().then(() => {
-        if (tray) {
-          // TODO set server active logo
-          tray.setContextMenu(Menu.buildFromTemplate(menuTemplateOn));
-        }
-      });
-    }
-  }
-].concat(menuTemplate);
-
-/**
- * create application tray
- */
-const createTray = async () => {
-  tray = new Tray(config.imagePath.logo);
-  tray.setToolTip('Creek');
-  tray.setContextMenu(Menu.buildFromTemplate(menuTemplateOff));
-};
+let creekServer = null;
 
 app.whenReady()
-    .then(createTray)
-    .then(startServer)
+    .then(() => new CreekTray(initStatus))
+    .then(() => creekServer = new CreekServer())
+    .then(() => creekServer.startup(port, host))
     .catch(console.error);
 
-app.on('quit', closeServer);
+app.on('quit', () => creekServer.shutdown());
 
 app.on('window-all-closed', () => {
   // should not quit
