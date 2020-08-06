@@ -24,12 +24,9 @@
   "main": "./dist/main.bundle.js",
   "scripts": {
     "start:electron": "electron .",
-    "start:webpack-dev-server": "webpack-dev-server --config build-configs/webpack.renderer.dev.js",
-    "clean": "rimraf dist",
-    "build-main:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.main.js",
-    "build-main:prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.main.js",
-    "build-renderer:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.renderer.dev.js",
-    "build-renderer:pord": "cross-env NODE_ENV=production webpack --config build-configs/webpack.renderer.dev.js"
+    "start:dev-server": "webpack-dev-server --config build-configs/webpack.renderer.dev.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.config.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
