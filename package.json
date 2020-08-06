@@ -2,7 +2,7 @@
   "name": "creek",
   "version": "1.0.0",
   "private": true,
-  "description": "",
+  "description": "A fun desktop barrage application developed based on Electron.",
   "keywords": [
     "danmu",
     "danmaku",

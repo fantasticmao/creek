@@ -1,14 +1,16 @@
 # Webpack Configs
 
-## Files Dependency
+## Configurations Dependency
+
 ```text
-              webpack.base.js
-                 /       \
-                /         \
-  [webpack.main.js,     webpack.renderer.(dev|prod).js]  ==>  webpack.config.js
+            webpack.base.js
+               /       \
+              /         \
+[webpack.main.js,     webpack.renderer.(dev|prod).js]  ==>  webpack.config.js
 ```
 
 ## Build Commands
+
 ```json
 {
   "scripts": {
