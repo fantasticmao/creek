@@ -23,19 +23,18 @@
   },
   "main": "./dist/main.bundle.js",
   "scripts": {
-    "start": "electron .",
-    "start-renderer-dev": "webpack-dev-server --config build-configs/webpack.config.renderer.dev.js",
+    "start:electron": "electron .",
+    "start:webpack-dev-server": "webpack-dev-server --config build-configs/webpack.renderer.dev.js",
     "clean": "rimraf dist",
-    "build-main-dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.config.main.js",
-    "build-main-prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.config.main.js",
-    "build-renderer-dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.config.renderer.dev.js",
-    "build-renderer-pord": "cross-env NODE_ENV=production webpack --config build-configs/webpack.config.renderer.dev.js"
+    "build-main:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.main.js",
+    "build-main:prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.main.js",
+    "build-renderer:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.renderer.dev.js",
+    "build-renderer:pord": "cross-env NODE_ENV=production webpack --config build-configs/webpack.renderer.dev.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
-    "rimraf": "^3.0.2",
     "vue": "^2.6.11",
     "vue-baberrage": "^3.2.4",
     "vue-router": "^3.3.4",
@@ -50,6 +49,7 @@
     "css-loader": "^4.0.0",
     "electron": "^9.1.0",
     "html-webpack-plugin": "^4.3.0",
+    "rimraf": "^3.0.2",
     "style-loader": "^1.2.1",
     "vue-loader": "^15.9.3",
     "vue-template-compiler": "^2.6.11",

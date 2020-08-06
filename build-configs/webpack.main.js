@@ -1,5 +1,5 @@
 const {merge} = require('webpack-merge');
-const baseConfig = require('./webpack.config.base');
+const baseConfig = require('./webpack.base');
 
 module.exports = merge(baseConfig, {
   mode: process.env.NODE_ENV,

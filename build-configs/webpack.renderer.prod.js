@@ -1,5 +1,5 @@
 const {merge} = require('webpack-merge');
-const baseConfig = require('./webpack.config.base');
+const baseConfig = require('./webpack.base');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = merge(baseConfig, {
@@ -14,13 +14,25 @@ module.exports = merge(baseConfig, {
       title: 'Barrage',
       filename: 'barrage.html',
       template: './public/renderer.html',
-      chunks: ['barrage']
+      chunks: ['barrage'],
+      meta: {
+        'Content-Security-Policy': {
+          'http-equiv': 'Content-Security-Policy',
+          'content': 'script-src \'self\';'
+        }
+      }
     }),
     new HtmlWebpackPlugin({
       title: 'Preferences',
       filename: 'preferences.html',
       template: './public/renderer.html',
-      chunks: ['preferences']
+      chunks: ['preferences'],
+      meta: {
+        'Content-Security-Policy': {
+          'http-equiv': 'Content-Security-Policy',
+          'content': 'script-src \'self\';'
+        }
+      }
     })
   ],
 });

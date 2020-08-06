@@ -16,10 +16,11 @@ class ConfigWindow {
    */
   constructor() {
     this.window = new BrowserWindow({
-      width: 480,
-      height: 400,
+      width: process.env.PROD ? 480 : 1200,
+      height: process.env.PROD ? 400 : 800,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        devTools: process.env.DEV
       }
     });
     this.window.on('closed', () => console.debug('close config window...'));
