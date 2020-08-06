@@ -5,7 +5,7 @@ export default {
     serverOff: './src/static/server-off.png',
   },
   htmlPath: {
-    barrage: './dist/barrage.html',
+    danmu: './dist/danmu.html',
     preferences: './dist/preferences.html',
   },
   checkForUpdates: 'https://github.com/fantasticmao/creek/releases'

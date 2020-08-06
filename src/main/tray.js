@@ -1,7 +1,7 @@
 import {Menu, shell, Tray} from "electron";
 import config from "../common/config";
 import ConfigWindow from "./window-config";
-import BarrageWindow from "./window-barrage";
+import DanmuWindow from "./window-danmu";
 
 /**
  * Tray's menu base template
@@ -28,7 +28,7 @@ class CreekTray {
    * BrowserWindow, create by Electron
    * @default null
    */
-  barrageWindow = null;
+  danmuWindow = null;
 
   /**
    * Create tray
@@ -45,9 +45,9 @@ class CreekTray {
   }
 
   turnOn() {
-    // create barrage window
-    if (this.barrageWindow === null) {
-      this.barrageWindow = new BarrageWindow();
+    // create danmu window
+    if (this.danmuWindow === null) {
+      this.danmuWindow = new DanmuWindow();
     }
 
     // reset tray menu
@@ -59,10 +59,10 @@ class CreekTray {
   }
 
   turnOff() {
-    // close barrage window
-    if (this.barrageWindow !== null) {
-      this.barrageWindow.close();
-      this.barrageWindow = null;
+    // close danmu window
+    if (this.danmuWindow !== null) {
+      this.danmuWindow.close();
+      this.danmuWindow = null;
     }
 
     // reset tray menu

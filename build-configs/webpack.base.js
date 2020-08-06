@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-// local barrage server config
+// local danmu server config
 const localServer = {
-  port: 9000,
+  port: 9508,
   host: '0.0.0.0'
 };
 

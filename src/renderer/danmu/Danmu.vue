@@ -1,7 +1,7 @@
 <template>
     <vue-baberrage :isShow="true" :barrageList="data">
         <template v-slot:default="slotProps">
-            <span class="barrage">
+            <span class="danmu">
                 {{slotProps.item.msg}}
             </span>
         </template>
@@ -12,7 +12,7 @@
     import {MESSAGE_TYPE} from 'vue-baberrage';
 
     export default {
-        name: 'Barrage',
+        name: 'Danmu',
         data: function () {
             return {
                 id: 0,
@@ -55,7 +55,7 @@
 </script>
 
 <style scoped>
-    .barrage {
+    .danmu {
         color: #FFFFFF;
         font-size: 32px;
     }

@@ -10,7 +10,7 @@ module.exports = merge(baseConfig, {
   mode: 'development',
   target: 'electron-renderer',
   entry: {
-    barrage: './src/renderer/barrage.js',
+    danmu: './src/renderer/danmu.js',
     preferences: './src/renderer/preferences.js'
   },
   output: {
@@ -22,10 +22,10 @@ module.exports = merge(baseConfig, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Barrage',
-      filename: 'barrage.html',
+      title: 'Danmu',
+      filename: 'danmu.html',
       template: './public/renderer.html',
-      chunks: ['barrage'],
+      chunks: ['danmu'],
       meta: {
         'Content-Security-Policy': {
           'http-equiv': 'Content-Security-Policy',

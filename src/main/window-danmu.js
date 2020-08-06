@@ -2,10 +2,10 @@ import {BrowserWindow, screen} from "electron";
 import config from "../common/config";
 
 /**
- * Barrage window, which is create by Electron BrowserWindow
+ * Danmu window, which is create by Electron BrowserWindow
  * @see {@link https://www.electronjs.org/docs/api/browser-window} BrowserWindow
  */
-class BarrageWindow {
+class DanmuWindow {
   /**
    * BrowserWindow, create by Electron
    */
@@ -31,9 +31,9 @@ class BarrageWindow {
 
     this.window.setIgnoreMouseEvents(process.env.PROD);
     this.window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
-    this.window.on('closed', () => console.debug('close barrage window...'));
-    this.window.loadFile(config.htmlPath.barrage)
-        .then(() => console.debug('create barrage window...'));
+    this.window.on('closed', () => console.debug('close danmu window...'));
+    this.window.loadFile(config.htmlPath.danmu)
+        .then(() => console.debug('create danmu window...'));
 
     // TODO 支持 Vue-Devtools
   }
@@ -46,4 +46,4 @@ class BarrageWindow {
   }
 }
 
-export default BarrageWindow;
+export default DanmuWindow;

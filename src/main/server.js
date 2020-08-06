@@ -1,7 +1,7 @@
 import express from 'express';
 
 /**
- * Local barrage server
+ * Local danmu server
  * @author fantasticmao <maomao8017@gmail.com>
  * @since 1.0.0
  */
@@ -12,7 +12,7 @@ class CreekServer {
    */
   app;
   /**
-   * Data, store for barrage message
+   * Data, store for danmu message
    * @type {{msg: string}[]}
    */
   data = [];

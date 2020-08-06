@@ -2,11 +2,10 @@
   "name": "creek",
   "version": "1.0.0",
   "private": true,
-  "description": "A fun desktop barrage application developed based on Electron.",
+  "description": "A fun desktop danmu(bullet screen) application developed based on Electron.",
   "keywords": [
     "danmu",
-    "danmaku",
-    "barrage",
+    "bullet screen",
     "electron-app"
   ],
   "homepage": "https://github.com/fantasticmao/creek#readme",
