@@ -34,8 +34,6 @@ class DanmuWindow {
     this.window.on('closed', () => console.debug('close danmu window...'));
     this.window.loadFile(config.htmlPath.danmu)
         .then(() => console.debug('create danmu window...'));
-
-    // TODO 支持 Vue-Devtools
   }
 
   /**
