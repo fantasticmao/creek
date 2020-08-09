@@ -16,16 +16,23 @@ class ConfigWindow {
    */
   constructor() {
     this.window = new BrowserWindow({
-      width: process.env.PROD ? 480 : 1200,
-      height: process.env.PROD ? 400 : 800,
+      width: 480,
+      height: 400,
       webPreferences: {
         nodeIntegration: true,
         devTools: process.env.DEV
       }
     });
     this.window.on('closed', () => console.debug('close config window...'));
-    this.window.loadFile(config.htmlPath.preferences)
-        .then(() => console.debug('create config window...'));
+    this.window.loadFile(config.htmlPath.preferences, {query: {active: 1}})
+        .then(() => console.debug('create config window...'))
+        .then(() => {
+          if (process.env.DEV) {
+            this.window.openDevTools({
+              mode: 'detach'
+            });
+          }
+        });
   }
 
 }
