@@ -16,8 +16,8 @@ class ConfigWindow {
    */
   constructor() {
     this.window = new BrowserWindow({
-      width: 480,
-      height: 400,
+      width: 400,
+      height: 290,
       webPreferences: {
         nodeIntegration: true,
         devTools: process.env.DEV

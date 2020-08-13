@@ -1,7 +1,7 @@
 <template>
     <div class="preferences">
-        <div class="aside">
-            <Menu :items="menuItems" :default-active="defaultActive"></Menu>
+        <div class="header">
+            <Toolbar :items="toolbarItems" :default-active="defaultActive"></Toolbar>
         </div>
 
         <div class="main">
@@ -11,7 +11,10 @@
 </template>
 
 <script>
-    import Menu from "./Menu";
+    import Toolbar from "./Toolbar";
+    import IconDisplay from '../../static/icons/display.svg';
+    import IconServer from '../../static/icons/server.svg';
+    import IconAbout from '../../static/icons/about.svg';
 
     const url = new URL(location.href);
     const defaultActive = url.searchParams.get('active');
@@ -19,22 +22,25 @@
     export default {
         name: "Preferences",
         components: {
-            Menu
+            Toolbar
         },
         data: function () {
             return {
-                menuItems: [{
+                toolbarItems: [{
                     index: 1,
-                    label: 'Danmu Display',
-                    route: 'danmuDisplay'
+                    label: 'Display',
+                    icon: IconDisplay,
+                    route: 'display'
                 }, {
                     index: 2,
-                    label: 'Danmu Server',
-                    route: 'danmuServer'
+                    label: 'Server',
+                    icon: IconServer,
+                    route: 'server'
                 }, {
                     index: 3,
-                    label: 'About Creek',
-                    route: 'aboutCreek'
+                    label: 'About',
+                    icon: IconAbout,
+                    route: 'about'
                 }],
                 defaultActive: Number.parseInt(defaultActive)
             }
@@ -47,28 +53,27 @@
         height: 100%;
         margin: 0;
         padding: 0;
-        color: #BBBBBB;
-        font-size: 14px;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
         sans-serif, Apple Color Emoji, Segoe UI Emoji;
     }
 
     .preferences {
-        width: 100%;
         height: 100%;
-        display: flex;
+
+        /* css grid layout */
+        display: grid;
+        grid-template-rows: 55px 1fr;
+        justify-items: center;
     }
 
-    .aside {
-        width: 150px;
-        height: 100%;
-        background-color: #3D434D;
-        border-right: 1px solid #323232;
+    .header {
+        background-color: #464646;
+        border-bottom: 1px solid #323232;
+        width: 100%;
     }
 
     .main {
-        width: calc(100% - 150px);
-        height: 100%;
-        background-color: #3B3F41;
+        background-color: #2D2D2D;
+        width: 100%;
     }
 </style>
