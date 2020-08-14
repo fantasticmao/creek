@@ -7,11 +7,11 @@
             </FormItem>
 
             <FormItem :key="2" label="Local Server Port:" :disabled="!useLocalServer">
-                <input type="number" style="width: 45px" value="9508" placeholder="9508">
+                <input type="number" style="width: 45px" value="9508" placeholder="9508" :disabled="!useLocalServer">
             </FormItem>
 
             <FormItem :key="3" label="Remote Server URL:" :disabled="useLocalServer">
-                <input type="url" style="width: 155px" placeholder="https://example.com" disabled>
+                <input type="url" style="width: 155px" placeholder="https://example.com" :disabled="useLocalServer">
             </FormItem>
         </Form>
     </div>
