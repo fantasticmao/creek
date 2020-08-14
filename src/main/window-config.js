@@ -24,7 +24,7 @@ class ConfigWindow {
       }
     });
     this.window.on('closed', () => console.debug('close config window...'));
-    this.window.loadFile(config.htmlPath.preferences, {query: {active: 1}})
+    this.window.loadFile(config.htmlPath.preferences, {query: {defaultRoute: 'display'}})
         .then(() => console.debug('create config window...'))
         .then(() => {
           if (process.env.DEV) {

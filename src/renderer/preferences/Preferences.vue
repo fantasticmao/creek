@@ -1,7 +1,22 @@
 <template>
     <div class="preferences">
         <div class="header">
-            <Toolbar :items="toolbarItems" :default-active="defaultActive"></Toolbar>
+            <Toolbar>
+                <ToolbarItem :key="1" label="Display" :icon="iconDisplay"
+                             :active="route === 'display'"
+                             @click.native="handleClickToolbarItem('display')">
+                </ToolbarItem>
+
+                <ToolbarItem :key="2" label="Server" :icon="iconServer"
+                             :active="route === 'server'"
+                             @click.native="handleClickToolbarItem('server')">
+                </ToolbarItem>
+
+                <ToolbarItem :key="3" label="About" :icon="iconAbout"
+                             :active="route === 'about'"
+                             @click.native="handleClickToolbarItem('about')">
+                </ToolbarItem>
+            </Toolbar>
         </div>
 
         <div class="main">
@@ -11,38 +26,41 @@
 </template>
 
 <script>
-    import Toolbar from "./Toolbar";
+    import Toolbar from "./components/Toolbar";
+    import ToolbarItem from "./components/ToolbarItem";
+
     import IconDisplay from '../../static/icons/display.svg';
     import IconServer from '../../static/icons/server.svg';
     import IconAbout from '../../static/icons/about.svg';
 
     const url = new URL(location.href);
-    const defaultActive = url.searchParams.get('active');
+    const defaultRoute = url.searchParams.get('defaultRoute') || 'display';
 
     export default {
         name: "Preferences",
         components: {
-            Toolbar
+            Toolbar,
+            ToolbarItem
         },
         data: function () {
             return {
-                toolbarItems: [{
-                    index: 1,
-                    label: 'Display',
-                    icon: IconDisplay,
-                    route: 'display'
-                }, {
-                    index: 2,
-                    label: 'Server',
-                    icon: IconServer,
-                    route: 'server'
-                }, {
-                    index: 3,
-                    label: 'About',
-                    icon: IconAbout,
-                    route: 'about'
-                }],
-                defaultActive: Number.parseInt(defaultActive)
+                route: defaultRoute,
+                iconDisplay: IconDisplay,
+                iconServer: IconServer,
+                iconAbout: IconAbout
+            }
+        },
+        methods: {
+            handleClickToolbarItem: function (route) {
+                this.route = route;
+                this.$router.push(route);
+            }
+        },
+        mounted: function () {
+            if (this.route) {
+                this.$router.push(this.route);
+            } else {
+                throw new Error('failed to match the default route');
             }
         }
     }
@@ -62,14 +80,14 @@
 
         /* css grid layout */
         display: grid;
-        grid-template-rows: 55px 1fr;
+        grid-template-rows: 56px 1fr;
         justify-items: center;
     }
 
     .header {
         background-color: #464646;
         width: 100%;
-        border-bottom: 1px solid #323232;
+        border-bottom: 1px solid #000000;
     }
 
     .main {
