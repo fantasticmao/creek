@@ -54,5 +54,6 @@
         /* css flex layout */
         display: flex;
         justify-content: center;
+        align-items: center;
     }
 </style>

@@ -38,10 +38,15 @@
         height: 54px;
         border-radius: 5px;
 
+        /* font color */
+        color: #DFDFDF;
+        opacity: 0.85;
+
         /* css grid layout */
         display: grid;
         grid-template-rows: 36px 1fr;
         justify-items: center;
+        align-items: center;
     }
 
     .active {
@@ -54,7 +59,6 @@
     }
 
     .toolbar-item .label {
-        color: #DFDFDF;
         font-size: 12px;
     }
 </style>

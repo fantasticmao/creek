@@ -68,12 +68,14 @@
 
     .header {
         background-color: #464646;
-        border-bottom: 1px solid #323232;
         width: 100%;
+        border-bottom: 1px solid #323232;
     }
 
     .main {
         background-color: #2D2D2D;
         width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
     }
 </style>
