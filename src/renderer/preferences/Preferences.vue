@@ -80,7 +80,7 @@
 
         /* css grid layout */
         display: grid;
-        grid-template-rows: 56px 1fr;
+        grid-template-rows: 55px 1fr;
         justify-items: center;
     }
 

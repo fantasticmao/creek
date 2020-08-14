@@ -1,16 +1,60 @@
 <template>
     <div class="danmu-display">
-        <h2>Danmu Display</h2>
+        <Form>
+            <FormItem :key="1" label="Font Size:">
+                <select style="width: 60px">
+                    <option v-for="size in [14, 16, 18, 20, 22, 24]" :value="size">
+                        {{ size }}
+                    </option>
+                </select>
+            </FormItem>
+
+            <FormItem :key="2" label="Font Color:">
+                <input type="text" style="width: 60px" placeholder="#FFFFFF">
+            </FormItem>
+
+            <FormItem :key="3" label="Font Opacity:">
+
+            </FormItem>
+
+            <FormItem :key="4" label="Scroll Speed:">
+                <select style="width: 60px">
+                    <option v-for="speed in ['Fast', 'Normal', 'Slow']" :value="speed">
+                        {{ speed }}
+                    </option>
+                </select>
+            </FormItem>
+
+            <FormItem :key="5" label="Display for Output">
+                <select style="min-width: 120px">
+                    <option>Built-in Display</option>
+                </select>
+            </FormItem>
+
+            <FormItem :key="6" label="Preview:">
+                <input type="checkbox" checked>
+            </FormItem>
+        </Form>
     </div>
 </template>
 
 <script>
+    import Form from "./components/Form";
+    import FormItem from "./components/FormItem";
+
     export default {
-        name: "DanmuDisplay"
+        name: "DanmuDisplay",
+        components: {
+            Form,
+            FormItem
+        }
     }
 </script>
 
 <style scoped>
     .danmu-display {
+        /* font color */
+        color: #DFDFDF;
+        opacity: 0.85;
     }
 </style>

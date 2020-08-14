@@ -30,7 +30,7 @@
     .form-item {
         /* css grid layout */
         display: grid;
-        grid-template-columns: 155px 1fr;
+        grid-template-columns: 170px 1fr;
         align-content: center;
     }
 
