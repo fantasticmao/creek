@@ -1,10 +1,11 @@
 import Vue from 'vue';
+import store from "./danmu/store";
+
 import Danmu from './danmu/Danmu';
-import {vueBaberrage} from 'vue-baberrage';
 
 Vue.config.productionTip = false;
-Vue.use(vueBaberrage);
 
 new Vue({
+  store,
   render: h => h(Danmu)
 }).$mount('#app');

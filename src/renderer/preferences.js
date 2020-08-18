@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import router from "./preferences/router";
+import router from './preferences/router';
 
 import Preferences from './preferences/Preferences';
 

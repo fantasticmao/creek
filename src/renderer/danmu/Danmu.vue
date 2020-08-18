@@ -1,39 +1,65 @@
 <template>
-    <vue-baberrage :isShow="true" :barrageList="data">
-        <template v-slot:default="slotProps">
-            <span class="danmu">
-                {{slotProps.item.msg}}
-            </span>
-        </template>
-    </vue-baberrage>
+    <div class="danmu" ref="danmu" :style="styleObject">
+        <DanmuChannel v-for="index in channelArray" ref="channel" :key="index">
+        </DanmuChannel>
+    </div>
 </template>
 
 <script>
-    import {MESSAGE_TYPE} from 'vue-baberrage';
+    import DanmuChannel from "./components/DanmuChannel";
 
     export default {
         name: 'Danmu',
+        components: {
+            DanmuChannel
+        },
         data: function () {
             return {
-                id: 0,
-                data: []
+                containerHeight: 0,
+                channelGap: 10
             };
         },
-        methods: {
-            put: function (message) {
-                this.data.push({
-                    id: this.id++,
-                    msg: message,
-                    time: 15,
-                    type: MESSAGE_TYPE.NORMAL
-                });
+        computed: {
+            /**
+             * calculate the number of rows
+             */
+            channelRows: function () {
+                const displayHeight = this.containerHeight - this.channelGap;
+                return Math.floor(displayHeight / (this.$store.state.font.size + this.channelGap));
+            },
+            channelArray: function () {
+                const arr = [];
+                for (let i = 0; i < this.channelRows; i++) {
+                    arr.push(i);
+                }
+                return arr;
+            },
+            styleObject: function () {
+                return {
+                    'padding-top': `${this.channelGap}px`,
+                    /* css grid layout */
+                    'display': 'grid',
+                    'grid-template-rows': `repeat(${this.channelRows}, ${this.$store.state.font.size}px)`,
+                    'grid-row-gap': `${this.channelGap}px`
+                };
             }
         },
-        mounted() {
-            setInterval(() => {
-                const self = this;
+        methods: {
+            /**
+             * send a danmu message
+             * @param {String} message text
+             */
+            sendMessage: function (message) {
+                // TODO choose a danmu channel
+                this.$refs['channel'][0].sendMessage(message);
+            },
+            /**
+             * fetch messages from danmu server
+             * @return {Promise<Response | void>} message array
+             */
+            fetchMessage: async function () {
                 const url = `http://${process.env.LOCAL_SERVER_HOST}:${process.env.LOCAL_SERVER_PORT}/dump?timestamp=${new Date().getTime()}`;
-                fetch(url)
+                return fetch(url)
                     .then(response => {
                         return response.ok
                             ? response.json()
@@ -41,22 +67,41 @@
                     })
                     .then(json => {
                         if (json.data && json.data instanceof Array) {
-                            json.data
-                                .map(item => item.msg)
-                                .forEach(self.put);
+                            return json.data.map(item => item.msg);
                         } else {
                             return Promise.reject(`json format error: ${json}`);
                         }
+                    });
+            }
+        },
+        mounted: function () {
+            // div element's height
+            this.containerHeight = this.$refs['danmu'].clientHeight;
+
+            // fetch message data as scheduled
+            const self = this;
+            setInterval(function () {
+                self.fetchMessage()
+                    .then(messageArray => {
+                        messageArray.forEach(self.sendMessage);
                     })
                     .catch(console.error);
-            }, 1000)
+            }, 1000);
         }
     }
 </script>
 
-<style scoped>
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+        sans-serif, Apple Color Emoji, Segoe UI Emoji;
+    }
+
     .danmu {
-        color: #FFFFFF;
-        font-size: 32px;
+        height: 100%;
+        background-color: #808080;
     }
 </style>

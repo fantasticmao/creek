@@ -3,7 +3,7 @@
         <Form>
             <FormItem :key="1" label="Font Size:">
                 <select style="width: 60px">
-                    <option v-for="size in [14, 16, 18, 20, 22, 24]" :value="size">
+                    <option v-for="size in fontSizeArray" :value="size">
                         {{ size }}
                     </option>
                 </select>
@@ -47,6 +47,15 @@
         components: {
             Form,
             FormItem
+        },
+        computed: {
+            fontSizeArray: function () {
+                const arr = [];
+                for (let i = 14; i <= 64; i += 4) {
+                    arr.push(i);
+                }
+                return arr;
+            }
         }
     }
 </script>
