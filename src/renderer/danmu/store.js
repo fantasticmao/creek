@@ -11,7 +11,7 @@ const store = new Vuex.Store({
       opacity: 0.75
     },
     scroll: {
-      time: 7
+      speed: 200
     }
   },
   mutations: {
@@ -26,11 +26,11 @@ const store = new Vuex.Store({
     },
     changeScrollSpeed: function (state, scrollSpeed) {
       if (scrollSpeed === 'Fast') {
-        state.scroll.time = 5;
+        state.scroll.speed = 100; // 100px/s
       } else if (scrollSpeed === 'Normal') {
-        state.scroll.time = 10;
+        state.scroll.speed = 200; // 200px/s
       } else if (scrollSpeed === 'Slow') {
-        state.scroll.time = 15;
+        state.scroll.speed = 400; // 400px/s
       } else {
         throw new Error(`unknown speed type: ${scrollSpeed}`)
       }

@@ -16,7 +16,8 @@
         data: function () {
             return {
                 containerHeight: 0,
-                channelGap: 10
+                channelGap: 10,
+                msg: 0
             };
         },
         computed: {
@@ -46,15 +47,16 @@
         },
         methods: {
             /**
-             * send a danmu message
-             * @param {String} message text
+             * batch send danmu messages
+             * @param {String} messages msg text array
              */
-            sendMessage: function (message) {
+            sendMessages: function (messages) {
                 // TODO choose a danmu channel
-                this.$refs['channel'][0].sendMessage(message);
+                if (messages.length === 0) return;
+                this.$refs['channel'][0].sendMessages(messages);
             },
             /**
-             * fetch messages from danmu server
+             * fetch danmu messages from danmu server
              * @return {Promise<Response | void>} message array
              */
             fetchMessage: async function () {
@@ -78,13 +80,11 @@
             // div element's height
             this.containerHeight = this.$refs['danmu'].clientHeight;
 
-            // fetch message data as scheduled
+            // fetch danmu messages as scheduled
             const self = this;
             setInterval(function () {
                 self.fetchMessage()
-                    .then(messageArray => {
-                        messageArray.forEach(self.sendMessage);
-                    })
+                    .then(self.sendMessages)
                     .catch(console.error);
             }, 1000);
         }
