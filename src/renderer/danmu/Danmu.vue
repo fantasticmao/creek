@@ -1,6 +1,7 @@
 <template>
     <div class="danmu" ref="danmu" :style="styleObject">
-        <DanmuChannel v-for="index in channelArray" ref="channel" :key="index">
+        <DanmuChannel v-for="index in channelArray" ref="channel"
+                      :key="index" :index="index">
         </DanmuChannel>
     </div>
 </template>
@@ -102,6 +103,5 @@
 
     .danmu {
         height: 100%;
-        background-color: #808080;
     }
 </style>

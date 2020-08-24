@@ -50,7 +50,7 @@ class CreekServer {
       console.info('start local server...');
     });
     this.server.on('close', () => {
-      console.log('close local server...');
+      console.info('close local server...');
     });
   }
 
@@ -79,7 +79,7 @@ class CreekServer {
         response.status(400).send('\'msg\' must not be null\n');
         return;
       }
-      console.log(`push message, ip: ${request.ip}, msg: ${request.query.msg}`);
+      console.debug(`push message, ip: ${request.ip}, msg: ${request.query.msg}`);
       this.data.push({msg: request.query.msg});
       response.send('OK\n');
     });
@@ -94,7 +94,7 @@ class CreekServer {
       }
       const json = JSON.stringify({data: this.data});
       if (this.data.length !== 0) {
-        console.log(`dump message, json: ${json}`);
+        console.debug(`dump message, json: ${json}`);
       }
       this.data = [];
       response.set('Content-Type', 'application/json');

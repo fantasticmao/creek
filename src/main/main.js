@@ -20,8 +20,8 @@ app.whenReady()
        */
       if (process.env.DEV) {
         installExtension(VUEJS_DEVTOOLS)
-            .then((name) => console.log(`Added Extension:  ${name}`))
-            .catch((err) => console.log('An error occurred: ', err));
+            .then((name) => console.info(`Added Extension:  ${name}`))
+            .catch((err) => console.info('An error occurred: ', err));
       }
     })
     .then(() => creekServer = new CreekServer())

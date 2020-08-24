@@ -17,12 +17,19 @@
         components: {
             DanmuMessage
         },
+        props: {
+            index: {
+                type: Number,
+                require: true
+            }
+        },
         data: function () {
             return {
                 channelWidth: 0,
                 messageCount: 0,
                 messageArray: [],
-                msgQueue: []
+                msgQueue: [],
+                state: 'free' // 'free' or 'busy'
             };
         },
         methods: {
@@ -33,32 +40,33 @@
             sendMessages: function (messages) {
                 if (messages.length === 0) return;
                 this.msgQueue = this.msgQueue.concat(messages);
-
-                this.sendMessageFromQueue();
-            },
-            sendMessageFromQueue: function () {
-                if (this.msgQueue.length === 0) return;
-
-                const msgId = this.messageCount++;
-                const msgText = this.msgQueue.shift();
-                this.messageArray.push({
-                    id: msgId,
-                    msg: msgText
-                });
-                console.log(`msg send, id: ${msgId}, text: ${msgText}`);
             },
             handleMessageDebut: function (message) {
-                console.log(`msg debut, id: ${message.id}, text: ${message.msg}`);
-                this.sendMessageFromQueue();
+                console.debug(`msg debut, channelId: ${this.index}, msgId: ${message.id}, msgText: ${message.msg}`);
+                this.state = 'free';
             },
             handleMessageAnimationend: function () {
                 const message = this.messageArray.shift();
-                console.log(`msg end, id: ${message.id}, text: ${message.msg}`);
+                console.info(`msg end, channelId: ${this.index}, msgId: ${message.id}, msgText: ${message.msg}`);
             }
         },
         mounted: function () {
             // channel element's width
             this.channelWidth = this.$refs['danmu-channel'].clientWidth;
+
+            const self = this;
+            setInterval(function () {
+                if (self.state === 'free' && self.msgQueue.length !== 0) {
+                    const msgId = self.messageCount++;
+                    const msgText = self.msgQueue.shift();
+                    self.messageArray.push({
+                        id: msgId,
+                        msg: msgText
+                    });
+                    console.info(`msg send, channelId: ${self.index}, msgId: ${msgId}, msgText: ${msgText}`);
+                    self.state = 'busy';
+                }
+            }, 100);
         }
     }
 </script>
@@ -66,10 +74,5 @@
 <style scoped>
     .danmu-channel {
         width: 100%;
-
-        /* css flex layout*/
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
     }
 </style>
