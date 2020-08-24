@@ -25,13 +25,17 @@
                 </select>
             </FormItem>
 
-            <FormItem :key="5" label="Display for Output">
+            <FormItem :key="5" label="Pause on Mouse Hover:">
+                <input type="checkbox">
+            </FormItem>
+
+            <FormItem :key="6" label="Display for Output">
                 <select style="min-width: 120px">
                     <option>Built-in Display</option>
                 </select>
             </FormItem>
 
-            <FormItem :key="6" label="Preview:">
+            <FormItem :key="7" label="Preview:">
                 <input type="checkbox" checked>
             </FormItem>
         </Form>

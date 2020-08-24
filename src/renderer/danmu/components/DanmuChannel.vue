@@ -34,12 +34,11 @@
         },
         methods: {
             /**
-             * batch send danmu messages
-             * @param {String} messages msg text array
+             * send a danmu messages
+             * @param {String} message msg text
              */
-            sendMessages: function (messages) {
-                if (messages.length === 0) return;
-                this.msgQueue = this.msgQueue.concat(messages);
+            sendMessage: function (message) {
+                this.msgQueue.push(message);
             },
             handleMessageDebut: function (message) {
                 console.debug(`msg debut, channelId: ${this.index}, msgId: ${message.id}, msgText: ${message.msg}`);

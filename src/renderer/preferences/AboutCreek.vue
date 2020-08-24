@@ -53,6 +53,7 @@
 
     .about-creek .github {
         font-size: 13px;
+        user-select: all;
     }
 
     .about-creek .github:hover {

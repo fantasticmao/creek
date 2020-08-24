@@ -1,5 +1,6 @@
 <template>
-    <div class="danmu-message" ref="danmu-message" :style="styleObject">
+    <div class="danmu-message" ref="danmu-message" :style="styleObject"
+         @mouseover="handleMouseover" @mouseleave="handleMouseleave">
         <span>
             <slot></slot>
         </span>
@@ -17,7 +18,8 @@
         },
         data: function () {
             return {
-                messageWidth: 0
+                messageWidth: 0,
+                animationPlayState: 'running'
             };
         },
         computed: {
@@ -30,6 +32,18 @@
                     'margin-right': `${this.$store.state.font.size / 2}px`,
                     'animation-duration': `${duration}s`,
                 };
+            }
+        },
+        methods: {
+            handleMouseover: function () {
+                if (this.$store.state.scroll.pauseOnMouseHover) {
+                    this.animationPlayState = 'paused';
+                }
+            },
+            handleMouseleave: function () {
+                if (this.$store.state.scroll.pauseOnMouseHover) {
+                    this.animationPlayState = 'running'
+                }
             }
         },
         mounted: function () {

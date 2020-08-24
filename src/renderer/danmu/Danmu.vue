@@ -52,9 +52,35 @@
              * @param {String} messages msg text array
              */
             sendMessages: function (messages) {
-                // TODO choose a danmu channel
-                if (messages.length === 0) return;
-                this.$refs['channel'][0].sendMessages(messages);
+                if (messages.length === 0 || !messages instanceof Array) return;
+
+                const self = this;
+                messages.forEach(function (message) {
+                    self.selectChannel()
+                        .then(function (channel) {
+                            channel.sendMessage(message);
+                        });
+                });
+            },
+            /**
+             * choose an available free channel
+             * @return {Promise<channel>} channel component
+             */
+            selectChannel: async function () {
+                let resultChannel = null;
+                for (let i = 0; i < this.channelRows; i++) {
+                    const channel = this.$refs['channel'][i];
+                    if (channel.state === 'free') {
+                        resultChannel = channel;
+                        break;
+                    }
+                }
+
+                if (resultChannel !== null) {
+                    return Promise.resolve(resultChannel);
+                } else {
+                    return Promise.resolve(setTimeout(this.selectChannel, 300));
+                }
             },
             /**
              * fetch danmu messages from danmu server

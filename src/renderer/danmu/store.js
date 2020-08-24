@@ -11,7 +11,8 @@ const store = new Vuex.Store({
       opacity: 0.75
     },
     scroll: {
-      speed: 200
+      speed: 200,
+      pauseOnMouseHover: true
     }
   },
   mutations: {
@@ -34,6 +35,9 @@ const store = new Vuex.Store({
       } else {
         throw new Error(`unknown speed type: ${scrollSpeed}`)
       }
+    },
+    changePauseOnMouseHover: function (state, pauseOnMouseHover) {
+      state.scroll.pauseOnMouseHover = pauseOnMouseHover;
     }
   }
 });
