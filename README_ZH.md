@@ -57,7 +57,7 @@ msg |============ channel ===========｜ <= msg
 
 @keyframes msg {
     from {
-        transform: translate3d(1200px, 0, 0); /* 标记弹幕开始位置 */
+        transform: translate3d(400px, 0, 0); /* 标记弹幕开始位置 */
     }
 
     to {
