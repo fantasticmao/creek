@@ -3,7 +3,7 @@
         <DanmuMessage v-for="message in messageArray" ref="danmu-message"
                       :key="message.id" :channel-width="channelWidth"
                       @debut.once="handleMessageDebut(message)"
-                      @animationend.native="handleMessageAnimationend">
+                      @transitionend.native="handleMessageTransitionend">
             {{ message.msg }}
         </DanmuMessage>
     </div>
@@ -44,7 +44,7 @@
                 console.debug(`msg debut, channelId: ${this.index}, msgId: ${message.id}, msgText: ${message.msg}`);
                 this.state = 'free';
             },
-            handleMessageAnimationend: function () {
+            handleMessageTransitionend: function () {
                 const message = this.messageArray.shift();
                 console.info(`msg end, channelId: ${this.index}, msgId: ${message.id}, msgText: ${message.msg}`);
             }
@@ -62,7 +62,7 @@
                         id: msgId,
                         msg: msgText
                     });
-                    console.info(`msg send, channelId: ${self.index}, msgId: ${msgId}, msgText: ${msgText}`);
+                    console.info(`msg start, channelId: ${self.index}, msgId: ${msgId}, msgText: ${msgText}`);
                     self.state = 'busy';
                 }
             }, 100);

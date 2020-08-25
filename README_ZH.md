@@ -50,19 +50,15 @@ msg |============ channel ===========｜ <= msg
     color: #FFFFFF;
     opacity: 0.45;
     margin-right: 16px;
-    animation-name: msg; /* 使用 CSS3 Animation 实现弹幕效果 */
-    animation-duration: 10s;
-    animation-timing-function: linear;
+    transition: transform 10s linear; /* 使用 CSS3 Transition 实现弹幕效果 */
 }
 
-@keyframes msg {
-    from {
-        transform: translate3d(400px, 0, 0); /* 标记弹幕开始位置 */
-    }
+.msg:start {
+    transform: translate3d(400px, 0, 0); /* 标记弹幕开始位置 */
+}
 
-    to {
-        transform: translate3d(-100%, 0, 0); /* 标记弹幕结束位置 */
-    }
+.msg:end {
+    transform: translate3d(-100%, 0, 0); /* 标记弹幕结束位置 */
 }
 ```
 
