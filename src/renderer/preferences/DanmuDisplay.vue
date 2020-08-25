@@ -19,7 +19,7 @@
 
             <FormItem :key="4" label="Scroll Speed:">
                 <select style="width: 60px">
-                    <option v-for="speed in ['Fast', 'Normal', 'Slow']" :value="speed">
+                    <option v-for="speed in ['Slow', 'Default', 'Fast']" :value="speed">
                         {{ speed }}
                     </option>
                 </select>

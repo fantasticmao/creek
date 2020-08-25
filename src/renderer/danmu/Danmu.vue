@@ -87,7 +87,12 @@
              * @return {Promise<Response | void>} message array
              */
             fetchMessage: async function () {
-                const url = `http://${process.env.LOCAL_SERVER_HOST}:${process.env.LOCAL_SERVER_PORT}/dump?timestamp=${new Date().getTime()}`;
+                let url;
+                if (this.$store.state.server.enableLocalServer) {
+                    url = `http://${process.env.LOCAL_SERVER_HOST}:${this.$store.state.server.localServerPort}/dump?timestamp=${new Date().getTime()}`;
+                } else {
+                    url = `${this.$store.state.server.localServerPort}?timestamp=${new Date().getTime()}`;
+                }
                 return fetch(url)
                     .then(response => {
                         return response.ok

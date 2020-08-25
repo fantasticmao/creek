@@ -12,7 +12,12 @@ const store = new Vuex.Store({
     },
     scroll: {
       speed: 200,
-      pauseOnMouseHover: true
+      pauseOnMouseHover: false
+    },
+    server: {
+      enableLocalServer: true,
+      localServerPort: 9508,
+      remoteServerUrl: ''
     }
   },
   mutations: {
@@ -26,11 +31,11 @@ const store = new Vuex.Store({
       state.font.size = fontOpacity;
     },
     changeScrollSpeed: function (state, scrollSpeed) {
-      if (scrollSpeed === 'Fast') {
+      if (scrollSpeed === 'Slow') {
         state.scroll.speed = 100; // 100px/s
-      } else if (scrollSpeed === 'Normal') {
+      } else if (scrollSpeed === 'Default') {
         state.scroll.speed = 200; // 200px/s
-      } else if (scrollSpeed === 'Slow') {
+      } else if (scrollSpeed === 'Fast') {
         state.scroll.speed = 400; // 400px/s
       } else {
         throw new Error(`unknown speed type: ${scrollSpeed}`)
@@ -38,6 +43,15 @@ const store = new Vuex.Store({
     },
     changePauseOnMouseHover: function (state, pauseOnMouseHover) {
       state.scroll.pauseOnMouseHover = pauseOnMouseHover;
+    },
+    changeEnableLocalServer: function (state, enableLocalServer) {
+      state.server.enableLocalServer = enableLocalServer;
+    },
+    changeLocalServerPort: function (state, localServerPort) {
+      state.server.localServerPort = localServerPort;
+    },
+    changeRemoteServerUrl: function (state, remoteServerUrl) {
+      state.server.remoteServerUrl = remoteServerUrl;
     }
   }
 });
