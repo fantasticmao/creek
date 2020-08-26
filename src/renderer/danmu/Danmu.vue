@@ -54,10 +54,9 @@
             sendMessages: function (messages) {
                 if (messages.length === 0 || !messages instanceof Array) return;
 
-                const self = this;
-                messages.forEach(function (message) {
-                    self.selectChannel()
-                        .then(function (channel) {
+                messages.forEach(message => {
+                    this.selectChannel()
+                        .then(channel => {
                             channel.sendMessage(message);
                         });
                 });
@@ -89,7 +88,7 @@
             fetchMessage: async function () {
                 let url;
                 if (this.$store.state.server.enableLocalServer) {
-                    url = `http://${process.env.LOCAL_SERVER_HOST}:${this.$store.state.server.localServerPort}/dump?timestamp=${new Date().getTime()}`;
+                    url = `http://${this.$store.state.server.localServerHost}:${this.$store.state.server.localServerPort}/dump?timestamp=${new Date().getTime()}`;
                 } else {
                     url = `${this.$store.state.server.localServerPort}?timestamp=${new Date().getTime()}`;
                 }
@@ -113,10 +112,9 @@
             this.containerHeight = this.$refs['danmu'].clientHeight;
 
             // fetch danmu messages as scheduled
-            const self = this;
-            setInterval(function () {
-                self.fetchMessage()
-                    .then(self.sendMessages)
+            setInterval(() => {
+                this.fetchMessage()
+                    .then(this.sendMessages)
                     .catch(console.error);
             }, 1000);
         }

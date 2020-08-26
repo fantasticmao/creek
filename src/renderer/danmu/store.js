@@ -17,6 +17,7 @@ const store = new Vuex.Store({
     server: {
       enableLocalServer: true,
       localServerPort: 9508,
+      localServerHost: '0.0.0.0',
       remoteServerUrl: ''
     }
   },

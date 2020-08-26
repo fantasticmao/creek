@@ -60,20 +60,19 @@
             // message element's width
             this.messageWidth = this.$refs['danmu-message'].clientWidth + this.$store.state.font.size / 2;
 
-            const self = this;
             /*
              * Trigger a transition event requires a delayed execution function
              * see more: https://github.com/vuejs/vue/issues/7706#issuecomment-368218972
              */
             const transitionTimeout = 100; // ms
-            setTimeout(function () {
-                self.state = 'end';
+            setTimeout(() => {
+                this.state = 'end';
             }, transitionTimeout);
 
             // trigger message debut event, will be used to send the next message in the queue
             const debutTimeout = (this.messageWidth / this.$store.state.scroll.speed) * 1000; // ms
-            setTimeout(function () {
-                self.$emit('debut');
+            setTimeout(() => {
+                this.$emit('debut');
             }, debutTimeout + transitionTimeout);
         }
     }

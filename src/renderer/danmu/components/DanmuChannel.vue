@@ -53,17 +53,16 @@
             // channel element's width
             this.channelWidth = this.$refs['danmu-channel'].clientWidth;
 
-            const self = this;
-            setInterval(function () {
-                if (self.state === 'free' && self.msgQueue.length !== 0) {
-                    const msgId = self.messageCount++;
-                    const msgText = self.msgQueue.shift();
-                    self.messageArray.push({
+            setInterval(() => {
+                if (this.state === 'free' && this.msgQueue.length !== 0) {
+                    const msgId = this.messageCount++;
+                    const msgText = this.msgQueue.shift();
+                    this.messageArray.push({
                         id: msgId,
                         msg: msgText
                     });
-                    console.info(`msg start, channelId: ${self.index}, msgId: ${msgId}, msgText: ${msgText}`);
-                    self.state = 'busy';
+                    console.info(`msg start, channelId: ${this.index}, msgId: ${msgId}, msgText: ${msgText}`);
+                    this.state = 'busy';
                 }
             }, 100);
         }
