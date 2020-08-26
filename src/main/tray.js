@@ -8,8 +8,8 @@ import DanmuWindow from './window-danmu';
 const menuBaseTemplate = [
   {type: 'separator'},
   {label: 'Check for Updates...', click: () => shell.openExternal('https://github.com/fantasticmao/creek/releases')},
-  {label: 'Preferences...', accelerator: 'Command+,', click: () => new ConfigWindow()},
-  {label: 'About Creek'},
+  {label: 'Preferences...', accelerator: 'Command+,', click: () => new ConfigWindow('display')},
+  {label: 'About Creek', click: () => new ConfigWindow('about')},
   {type: 'separator'},
   {label: 'Quite Creek', accelerator: 'Command+Q', role: 'quit'}
 ];

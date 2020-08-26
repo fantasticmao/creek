@@ -15,25 +15,22 @@ class ConfigWindow {
   /**
    * Create window
    */
-  constructor() {
+  constructor(route) {
     this.window = new BrowserWindow({
       width: 472,
       height: 292,
       webPreferences: {
         nodeIntegration: true,
         devTools: process.env.DEV
-      }
+      },
+      show: false
+    });
+    this.window.once('ready-to-show', () => {
+      this.window.show();
     });
     this.window.on('closed', () => console.debug('close config window...'));
-    this.window.loadFile('./dist/preferences.html', {query: {defaultRoute: 'display'}})
-        .then(() => console.debug('create config window...'))
-        .then(() => {
-          if (process.env.DEV) {
-            this.window.openDevTools({
-              mode: 'detach'
-            });
-          }
-        });
+    this.window.loadFile('./dist/preferences.html', {query: {defaultRoute: route}})
+        .then(() => console.debug('create config window...'));
   }
 
 }

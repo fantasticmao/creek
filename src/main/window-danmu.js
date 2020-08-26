@@ -27,9 +27,12 @@ class DanmuWindow {
       webPreferences: {
         nodeIntegration: true,
         devTools: process.env.DEV
-      }
+      },
+      show: false
     });
-
+    this.window.once('ready-to-show', () => {
+      this.window.show();
+    });
     this.window.setIgnoreMouseEvents(process.env.PROD);
     this.window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
     this.window.on('closed', () => console.debug('close danmu window...'));

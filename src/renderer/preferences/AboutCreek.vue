@@ -6,7 +6,6 @@
 
         <p class="version">Version 1.0.0</p>
 
-        <!-- TODO link to GitHub -->
         <p class="github" @click="handleClickGitHub">https://github.com/fantasticmao/creek/</p>
 
         <p class="copyright">Copyright © 2020 fantasticmao</p>
