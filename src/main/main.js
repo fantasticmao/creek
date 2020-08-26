@@ -2,16 +2,12 @@ import {app} from 'electron';
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
 import CreekServer from './server';
 import CreekTray from './tray';
-
-// TODO read from config file
-const port = process.env.LOCAL_SERVER_PORT;
-const host = process.env.LOCAL_SERVER_HOST;
-const initStatus = false;
+import config from './config';
 
 let creekServer = null;
 
 app.whenReady()
-    .then(() => new CreekTray(initStatus))
+    .then(() => new CreekTray(config.startupStatus))
     .then(() => {
       /*
        * Load chrome extension: Vue-Devtools.
@@ -25,7 +21,7 @@ app.whenReady()
       }
     })
     .then(() => creekServer = new CreekServer())
-    .then(() => creekServer.startup(port, host))
+    .then(() => creekServer.startup(config.localServerPort, config.localServerHost))
     .catch(console.error);
 
 app.on('quit', () => creekServer.shutdown());

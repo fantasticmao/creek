@@ -1,9 +1,10 @@
-import {BrowserWindow, screen} from "electron";
-import config from "../common/config";
+import {BrowserWindow, screen} from 'electron';
 
 /**
  * Danmu window, which is create by Electron BrowserWindow
  * @see {@link https://www.electronjs.org/docs/api/browser-window} BrowserWindow
+ * @author fantasticmao <maomao8017@gmail.com>
+ * @since 1.0.0
  */
 class DanmuWindow {
   /**
@@ -32,7 +33,7 @@ class DanmuWindow {
     this.window.setIgnoreMouseEvents(process.env.PROD);
     this.window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
     this.window.on('closed', () => console.debug('close danmu window...'));
-    this.window.loadFile(config.htmlPath.danmu)
+    this.window.loadFile('./dist/danmu.html')
         .then(() => console.debug('create danmu window...'));
   }
 

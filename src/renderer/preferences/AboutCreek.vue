@@ -7,15 +7,22 @@
         <p class="version">Version 1.0.0</p>
 
         <!-- TODO link to GitHub -->
-        <p class="github">https://github.com/fantasticmao/creek/</p>
+        <p class="github" @click="handleClickGitHub">https://github.com/fantasticmao/creek/</p>
 
         <p class="copyright">Copyright © 2020 fantasticmao</p>
     </div>
 </template>
 
 <script>
+    import {shell} from 'electron';
+
     export default {
-        name: "AboutCreek"
+        name: "AboutCreek",
+        methods: {
+            handleClickGitHub: function () {
+                shell.openExternal('https://github.com/fantasticmao/creek/');
+            }
+        }
     }
 </script>
 

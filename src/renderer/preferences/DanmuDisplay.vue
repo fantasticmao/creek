@@ -2,7 +2,7 @@
     <div class="danmu-display">
         <Form>
             <FormItem :key="1" label="Font Size:">
-                <select style="width: 60px">
+                <select style="width: 60px" @change="handleChangeFontSize">
                     <option v-for="size in fontSizeArray" :value="size">
                         {{ size }}
                     </option>
@@ -10,7 +10,8 @@
             </FormItem>
 
             <FormItem :key="2" label="Font Color:">
-                <input type="text" style="width: 60px" placeholder="#FFFFFF">
+                <input type="text" style="width: 60px" placeholder="#FFFFFF"
+                       @change="handleChangeFontColor">
             </FormItem>
 
             <FormItem :key="3" label="Font Opacity:">
@@ -32,7 +33,7 @@
             </FormItem>
 
             <FormItem :key="7" label="Preview:">
-                <input type="checkbox" checked>
+                <input type="checkbox">
             </FormItem>
         </Form>
     </div>
@@ -41,6 +42,8 @@
 <script>
     import Form from "./components/Form";
     import FormItem from "./components/FormItem";
+
+    import {ipcRenderer} from 'electron';
 
     export default {
         name: "DanmuDisplay",
@@ -55,6 +58,14 @@
                     arr.push(i);
                 }
                 return arr;
+            }
+        },
+        methods: {
+            handleChangeFontSize: function (event) {
+                ipcRenderer.send('fontSize', event.target.value);
+            },
+            handleChangeFontColor: function (event) {
+                ipcRenderer.send('fontColor', event.target.value);
             }
         }
     }
