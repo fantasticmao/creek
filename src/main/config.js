@@ -37,7 +37,7 @@ class CreekConfig {
   fontOpacity = 0.75;
 
   /**
-   * danmu scroll speed
+   * danmu scroll speed, unit in px/second
    * @type {number}
    */
   scrollSpeed = 200;

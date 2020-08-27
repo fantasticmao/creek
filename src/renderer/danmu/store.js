@@ -1,24 +1,28 @@
 import Vue from "vue";
 import Vuex from 'vuex';
 
+import electron from 'electron';
+
 Vue.use(Vuex);
+
+const config = electron.remote.getGlobal('__config');
 
 const store = new Vuex.Store({
   state: {
     font: {
-      size: 36,
-      color: '#FFFFFF',
-      opacity: 0.75
+      size: config.fontSize,
+      color: config.fontColor,
+      opacity: config.fontOpacity
     },
     scroll: {
-      speed: 200,
-      pauseOnMouseHover: false
+      speed: config.scrollSpeed,
+      pauseOnMouseHover: config.pauseOnMouseHover
     },
     server: {
-      enableLocalServer: true,
-      localServerPort: 9508,
-      localServerHost: '0.0.0.0',
-      remoteServerUrl: ''
+      enableLocalServer: config.enableLocalServer,
+      localServerPort: config.localServerPort,
+      localServerHost: config.localServerHost,
+      remoteServerUrl: config.remoteServerUrl
     }
   },
   mutations: {
@@ -32,15 +36,7 @@ const store = new Vuex.Store({
       state.font.size = fontOpacity;
     },
     changeScrollSpeed: function (state, scrollSpeed) {
-      if (scrollSpeed === 'Slow') {
-        state.scroll.speed = 100; // 100px/s
-      } else if (scrollSpeed === 'Default') {
-        state.scroll.speed = 200; // 200px/s
-      } else if (scrollSpeed === 'Fast') {
-        state.scroll.speed = 400; // 400px/s
-      } else {
-        throw new Error(`unknown speed type: ${scrollSpeed}`)
-      }
+      state.scroll.speed = scrollSpeed;
     },
     changePauseOnMouseHover: function (state, pauseOnMouseHover) {
       state.scroll.pauseOnMouseHover = pauseOnMouseHover;

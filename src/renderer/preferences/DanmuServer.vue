@@ -2,18 +2,17 @@
     <div class="danmu-server">
         <Form>
             <FormItem :key="1" label="Enable Local Server:">
-                <input type="checkbox" :checked="enableLocalServer"
-                       @change="handleChangeEnableLocalServer">
+                <input type="checkbox" v-model="enableLocalServer">
             </FormItem>
 
             <FormItem :key="2" label="Local Server Port:" :disabled="!enableLocalServer">
-                <input type="number" style="width: 45px" value="9508" placeholder="9508"
-                       :disabled="!enableLocalServer" @change="handleLocalServerPort">
+                <input type="number" style="width: 45px" placeholder="9508"
+                       v-model.lazy.number="localServerPort" :disabled="!enableLocalServer">
             </FormItem>
 
             <FormItem :key="3" label="Remote Server URL:" :disabled="enableLocalServer">
                 <input type="url" style="width: 155px" placeholder="https://example.com"
-                       :disabled="enableLocalServer" @change="handleRemoteServerUrl">
+                       v-model.lazy="remoteServerUrl" :disabled="enableLocalServer">
             </FormItem>
         </Form>
     </div>
@@ -23,7 +22,9 @@
     import Form from "./components/Form";
     import FormItem from "./components/FormItem";
 
-    import {ipcRenderer} from 'electron';
+    import electron, {ipcRenderer} from 'electron';
+
+    const config = electron.remote.getGlobal('__config');
 
     export default {
         name: "DanmuServer",
@@ -33,19 +34,20 @@
         },
         data: function () {
             return {
-                enableLocalServer: true
+                enableLocalServer: config.enableLocalServer,
+                localServerPort: config.localServerPort,
+                remoteServerUrl: config.remoteServerUrl
             }
         },
-        methods: {
-            handleChangeEnableLocalServer: function () {
-                this.enableLocalServer = !this.enableLocalServer;
-                ipcRenderer.send('enableLocalServer', this.enableLocalServer);
+        watch: {
+            enableLocalServer: function (value) {
+                ipcRenderer.send('enableLocalServer', value);
             },
-            handleLocalServerPort: function (event) {
-                ipcRenderer.send('localServerPort', event.target.value);
+            localServerPort: function (value) {
+                ipcRenderer.send('localServerPort', value);
             },
-            handleRemoteServerUrl: function (event) {
-                ipcRenderer.send('remoteServerUrl', event.target.value);
+            handleRemoteServerUrl: function (value) {
+                ipcRenderer.send('remoteServerUrl', value);
             }
         }
     }
