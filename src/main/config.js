@@ -16,7 +16,7 @@ class CreekConfig {
    * whether to open the danmu window when Creek startup
    * @type {boolean}
    */
-  startupStatus = false;
+  startupState = false;
 
   /**
    * danmu font size
@@ -78,10 +78,11 @@ class CreekConfig {
       console.info(`create config file: ${file}`);
       fs.writeFileSync(file, '{}', 'utf8');
     }
-    this.init();
+    this.initProperties();
+    this.registerEvents();
   }
 
-  init() {
+  initProperties() {
     const config = fs.readFileSync(file);
     for (const key in config) {
       if (config.hasOwnProperty(key) && this.hasOwnProperty(key)
@@ -89,6 +90,21 @@ class CreekConfig {
         this[key] = config[key];
       }
     }
+  }
+
+  registerEvents() {
+    for (const key in this) {
+      if (this.hasOwnProperty(key)) {
+        ipcMain.on(key, (event, value) => {
+          this.updateAndFlush(key, value);
+        });
+      }
+    }
+  }
+
+  updateAndFlush(key, value) {
+    this.update(key, value);
+    this.flush();
   }
 
   update(key, value) {
@@ -104,16 +120,4 @@ class CreekConfig {
   }
 }
 
-// TODO use singleton pattern
-const config = new CreekConfig();
-
-for (const key in config) {
-  if (config.hasOwnProperty(key)) {
-    ipcMain.on(key, function (event, arg) {
-      config.update(key, arg);
-      config.flush()
-    });
-  }
-}
-
-export default config;
+export default CreekConfig;

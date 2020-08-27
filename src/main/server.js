@@ -49,19 +49,17 @@ class CreekServer {
     this.server = this.app.listen(port, host, () => {
       console.info('start local server...');
     });
-    this.server.on('close', () => {
-      console.info('close local server...');
-    });
   }
 
   /**
    * Close Node.js http.Server
    */
-  shutdown() {
+  shutdown(callback) {
     if (this.server === null) {
       console.error('local server is not started or has already been shut down');
       return;
     }
+    this.server.on('close', callback);
     this.server.close();
   }
 
