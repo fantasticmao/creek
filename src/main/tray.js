@@ -132,7 +132,8 @@ function createConfigWindow(route) {
     configWindow.show();
   }
 
-  // FIXME locate to the route
+  // push route
+  configWindow.webContents.send('push-route', route);
 }
 
 /**

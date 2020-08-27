@@ -33,6 +33,8 @@
     import IconServer from '../../static/icons/server.svg';
     import IconAbout from '../../static/icons/about.svg';
 
+    import {ipcRenderer} from 'electron';
+
     const url = new URL(location.href);
     const defaultRoute = url.searchParams.get('defaultRoute') || 'display';
 
@@ -62,6 +64,10 @@
             } else {
                 throw new Error('failed to match the default route');
             }
+
+            ipcRenderer.on('push-route', (event, route) => {
+                this.handleClickToolbarItem(route);
+            });
         }
     }
 </script>
