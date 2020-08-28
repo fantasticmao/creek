@@ -1,10 +1,9 @@
 import {BrowserWindow, screen} from 'electron';
+import logger from './logger';
 
 /**
- * Danmu window, which is create by Electron BrowserWindow
+ * New danmu window, which is create by Electron BrowserWindow
  * @see {@link https://www.electronjs.org/docs/api/browser-window} BrowserWindow
- * @author fantasticmao <maomao8017@gmail.com>
- * @since 1.0.0
  * @return {Electron.BrowserWindow}
  */
 export function newDanmuWindow() {
@@ -28,15 +27,13 @@ export function newDanmuWindow() {
   window.setIgnoreMouseEvents(process.env.PROD);
   window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
   window.loadFile('./dist/danmu.html')
-      .then(() => console.info('create danmu window...'));
+      .then(() => logger.info('windows', 'create danmu window...'));
   return window;
 }
 
 /**
- * Config window, which is create by Electron BrowserWindow
+ * New config window, which is create by Electron BrowserWindow
  * @see {@link https://www.electronjs.org/docs/api/browser-window} BrowserWindow
- * @author fantasticmao <maomao8017@gmail.com>
- * @since 1.0.0
  * @return {Electron.BrowserWindow}
  */
 export function newConfigWindow(route) {
@@ -53,6 +50,6 @@ export function newConfigWindow(route) {
     window.show();
   });
   window.loadFile('./dist/preferences.html', {query: {defaultRoute: route}})
-      .then(() => console.info('create config window...'));
+      .then(() => logger.info('windows', 'create config window...'));
   return window;
 }

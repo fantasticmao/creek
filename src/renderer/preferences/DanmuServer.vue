@@ -46,7 +46,7 @@
             localServerPort: function (value) {
                 ipcRenderer.send('localServerPort', value);
             },
-            handleRemoteServerUrl: function (value) {
+            remoteServerUrl: function (value) {
                 ipcRenderer.send('remoteServerUrl', value);
             }
         }

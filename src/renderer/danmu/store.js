@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from 'vuex';
 
-import electron from 'electron';
+import electron, {ipcRenderer} from 'electron';
 
 Vue.use(Vuex);
 
@@ -26,31 +26,44 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
-    changeFontSize: function (state, fontSize) {
+    fontSize: function (state, fontSize) {
       state.font.size = fontSize;
     },
-    changeFontColor: function (state, fontColor) {
-      state.font.size = fontColor;
+    fontColor: function (state, fontColor) {
+      state.font.color = fontColor;
     },
-    changeFontOpacity: function (state, fontOpacity) {
-      state.font.size = fontOpacity;
+    fontOpacity: function (state, fontOpacity) {
+      state.font.opacity = fontOpacity;
     },
-    changeScrollSpeed: function (state, scrollSpeed) {
+    scrollSpeed: function (state, scrollSpeed) {
       state.scroll.speed = scrollSpeed;
     },
-    changePauseOnMouseHover: function (state, pauseOnMouseHover) {
+    pauseOnMouseHover: function (state, pauseOnMouseHover) {
       state.scroll.pauseOnMouseHover = pauseOnMouseHover;
     },
-    changeEnableLocalServer: function (state, enableLocalServer) {
+    enableLocalServer: function (state, enableLocalServer) {
       state.server.enableLocalServer = enableLocalServer;
     },
-    changeLocalServerPort: function (state, localServerPort) {
+    localServerPort: function (state, localServerPort) {
       state.server.localServerPort = localServerPort;
     },
-    changeRemoteServerUrl: function (state, remoteServerUrl) {
+    localServerHost: function (state, localServerHost) {
+      state.server.localServerHost = localServerHost;
+    },
+    remoteServerUrl: function (state, remoteServerUrl) {
       state.server.remoteServerUrl = remoteServerUrl;
     }
   }
 });
+
+// add event listeners for config modification
+for (const key in config) {
+  if (config.hasOwnProperty(key)) {
+    ipcRenderer.on(key, (event, value) => {
+      console.debug(`config updated in renderer processes, key: ${key}, value: ${value}`);
+      store.commit(key, value);
+    });
+  }
+}
 
 export default store;

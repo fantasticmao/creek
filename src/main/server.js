@@ -1,4 +1,5 @@
 import express from 'express';
+import logger from './logger';
 
 /**
  * Local danmu server
@@ -18,6 +19,7 @@ class CreekServer {
   data = [];
   /**
    * Node.js http.Server, create by app.listen()
+   * @type {http.Server}
    * @see {@link https://nodejs.org/dist/latest-v12.x/docs/api/http.htmlhttp_class_http_server} http.Server
    */
   server = null;
@@ -43,20 +45,21 @@ class CreekServer {
    */
   startup(port, host) {
     if (this.server !== null) {
-      console.error('local server has already been started');
+      logger.error('local server', 'server has already been started');
       return;
     }
     this.server = this.app.listen(port, host, () => {
-      console.info('start local server...');
+      logger.info('local server', 'start server...');
     });
   }
 
   /**
    * Close Node.js http.Server
+   * @param {Function} callback - callback function
    */
   shutdown(callback) {
     if (this.server === null) {
-      console.error('local server is not started or has already been shut down');
+      logger.error('local server', 'server is not started or has already been shutdown');
       return;
     }
     this.server.on('close', callback);
@@ -77,7 +80,7 @@ class CreekServer {
         response.status(400).send('\'msg\' must not be null\n');
         return;
       }
-      console.debug(`push message, ip: ${request.ip}, msg: ${request.query.msg}`);
+      logger.debug('local server', `push message, ip: ${request.ip}, msg: ${request.query.msg}`);
       this.data.push({msg: request.query.msg});
       response.send('OK\n');
     });
@@ -86,13 +89,13 @@ class CreekServer {
   dump() {
     this.app.get('/dump', (request, response) => {
       if (request.ip !== '127.0.0.1') {
-        console.error(`illegal request, ip: ${request.ip}`);
+        logger.error('local server', `illegal request, ip: ${request.ip}`);
         response.sendStatus(403);
         return;
       }
       const json = JSON.stringify({data: this.data});
       if (this.data.length !== 0) {
-        console.debug(`dump message, json: ${json}`);
+        logger.debug('local server', `dump message, json: ${json}`);
       }
       this.data = [];
       response.set('Content-Type', 'application/json');

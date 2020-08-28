@@ -2,9 +2,11 @@ import os from 'os';
 import fs from 'fs';
 import path from 'path';
 import {ipcMain} from 'electron';
+import logger from './logger';
 
 // config file path: '~/.creek.json'
 const file = path.resolve(os.homedir(), '.creek.json');
+const encoding = 'utf8';
 
 /**
  * Read and write config file
@@ -75,15 +77,16 @@ class CreekConfig {
   constructor() {
     const existed = fs.existsSync(file);
     if (!existed) {
-      console.info(`create config file: ${file}`);
-      fs.writeFileSync(file, '{}', 'utf8');
+      logger.info('config', `create file: ${file}`);
+      fs.writeFileSync(file, '{}', encoding);
     }
     this.initProperties();
     this.registerEvents();
   }
 
   initProperties() {
-    const config = fs.readFileSync(file);
+    const json = fs.readFileSync(file, encoding);
+    const config = JSON.parse(json);
     for (const key in config) {
       if (config.hasOwnProperty(key) && this.hasOwnProperty(key)
           && config[key]) {
@@ -96,6 +99,7 @@ class CreekConfig {
     for (const key in this) {
       if (this.hasOwnProperty(key)) {
         ipcMain.on(key, (event, value) => {
+          logger.debug('config', `monitor changed, start updating and flushing data, key: ${key}, value: ${value}`);
           this.updateAndFlush(key, value);
         });
       }
@@ -110,13 +114,13 @@ class CreekConfig {
   update(key, value) {
     const oldValue = this[key];
     this[key] = value;
-    console.debug(`config changed, key: ${key}, oldValue: ${oldValue}, newValue: ${this[key]}`);
+    logger.debug('config', `updated, key: ${key}, oldValue: ${oldValue}, newValue: ${this[key]}`);
   }
 
   flush() {
     const json = JSON.stringify(this);
-    fs.writeFileSync(file, json);
-    console.debug(`config flushed, json: ${json}`);
+    fs.writeFileSync(file, json, encoding);
+    logger.debug('config', `flushed, json: ${json}`);
   }
 }
 

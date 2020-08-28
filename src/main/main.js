@@ -2,6 +2,7 @@ import {app} from 'electron';
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
 import {newTray} from './tray';
 import CreekConfig from './config';
+import logger from './logger';
 
 global.__config = new CreekConfig();
 
@@ -15,11 +16,11 @@ app.whenReady()
        */
       if (process.env.DEV) {
         installExtension(VUEJS_DEVTOOLS)
-            .then((name) => console.info(`Added Extension:  ${name}`))
-            .catch((err) => console.info('An error occurred: ', err));
+            .then(name => logger.info('main', `Added Extension:  ${name}`))
+            .catch(error => logger.info('main', `An error occurred: ${error.message}`));
       }
     })
-    .catch(console.error);
+    .catch(error => logger.error('main', error.message));
 
 app.on('window-all-closed', () => {
   // should not quit

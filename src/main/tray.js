@@ -1,6 +1,7 @@
-import {Menu, shell, Tray} from 'electron';
-import CreekServer from "./server";
+import {ipcMain, Menu, shell, Tray} from 'electron';
+import CreekServer from './server';
 import {newConfigWindow, newDanmuWindow} from './windows';
+import logger from './logger';
 
 /**
  * Tray, create by Electron
@@ -38,6 +39,9 @@ const baseMenuTemplate = [
   {label: 'Quite Creek', accelerator: 'Command+Q', role: 'quit'}
 ];
 
+/**
+ * Turn on the danmu display
+ */
 function turnOn() {
   // create danmu window
   createDanmuWindow();
@@ -55,6 +59,9 @@ function turnOn() {
   tray.setContextMenu(Menu.buildFromTemplate(menuTemplate));
 }
 
+/**
+ * Turn off the danmu display
+ */
 function turnOff() {
   // close danmu window
   closeDanmuWindow();
@@ -72,6 +79,9 @@ function turnOff() {
   tray.setContextMenu(Menu.buildFromTemplate(menuTemplate));
 }
 
+/**
+ * Create the danmu window, start the local danmu server if 'enableLocalServer' is true
+ */
 function createDanmuWindow() {
   // create local danmu server
   if (global.__config.enableLocalServer && creekServer === null) {
@@ -83,7 +93,7 @@ function createDanmuWindow() {
   if (danmuWindow === null) {
     danmuWindow = newDanmuWindow();
     danmuWindow.on('closed', () => {
-      console.info('close danmu window...');
+      logger.info('tray', 'close danmu window...');
       danmuWindow = null;
     });
   }
@@ -94,11 +104,14 @@ function createDanmuWindow() {
   }
 }
 
+/**
+ * Close the danmu window
+ */
 function closeDanmuWindow() {
   // close local danmu server
   if (creekServer !== null) {
     creekServer.shutdown(() => {
-      console.info('close local server...');
+      logger.info('tray', 'close local server...');
       creekServer = null;
     });
   }
@@ -114,11 +127,15 @@ function closeDanmuWindow() {
   }
 }
 
+/**
+ * Create the config window, locate to target route
+ * @param {String} route - target route
+ */
 function createConfigWindow(route) {
   if (configWindow === null) {
     configWindow = newConfigWindow(route);
     configWindow.on('closed', () => {
-      console.info('close config window...');
+      logger.info('tray', 'close config window...');
       configWindow = null;
     });
     return;
@@ -132,8 +149,24 @@ function createConfigWindow(route) {
     configWindow.show();
   }
 
-  // push route
+  // locate to target route
   configWindow.webContents.send('push-route', route);
+}
+
+/**
+ * Add event listeners for config modification, notify to the danmu window if it's open
+ */
+function registerDanmuWindowEvents() {
+  for (const key in global.__config) {
+    if (global.__config.hasOwnProperty(key)) {
+      ipcMain.on(key, (event, value) => {
+        if (danmuWindow !== null) {
+          logger.debug('tray', `monitored config change, start notify to danmu window, key: ${key}, value: ${value}`);
+          danmuWindow.webContents.send(key, value);
+        }
+      });
+    }
+  }
 }
 
 /**
@@ -150,5 +183,6 @@ export function newTray() {
   } else {
     turnOff();
   }
+  registerDanmuWindowEvents();
   return tray;
 }

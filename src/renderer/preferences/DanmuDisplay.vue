@@ -2,7 +2,7 @@
     <div class="danmu-display">
         <Form>
             <FormItem :key="1" label="Font Size:">
-                <select style="width: 60px" v-model.number="fontSize">
+                <select style="width: 80px" v-model.number="fontSize">
                     <option v-for="size in fontSizeArray" :value="size">
                         {{ size }}
                     </option>
@@ -10,13 +10,13 @@
             </FormItem>
 
             <FormItem :key="2" label="Font Color:">
-                <input type="text" style="width: 60px" placeholder="#FFFFFF"
+                <input type="text" style="width: 80px" placeholder="#FFFFFF"
                        v-model.lazy="fontColor">
             </FormItem>
 
-            <!-- TODO font opacity -->
             <FormItem :key="3" label="Font Opacity:">
-
+                <input type="range" style="max-width: 120px" min="0" max="1" step="0.05"
+                       v-model.number="fontOpacity">
             </FormItem>
 
             <FormItem :key="4" label="Scroll Speed:">
