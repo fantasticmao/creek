@@ -8,11 +8,27 @@
 
 ### 动态菜单栏
 
+重新设置 context menu
+
+### 使用 Chrome 插件（例如 vue-devtools）
+
+- 官方文档 https://www.electronjs.org/docs/tutorial/devtools-extension
+- 使用第三方库 https://github.com/MarshallOfSound/electron-devtools-installer
+
+### 避免打开窗口时闪屏
+
+官方文档 https://www.electronjs.org/docs/api/browser-window#using-ready-to-show-event
+
+### main 进程和 renderer 进程通讯
+
+1. 使用 ipcMain 和 ipcRenderer API，以及 BrowserWindow.WebContents.send() 方法
+2. 使用 global 对象和 require('electron').remote.getGlobal() 方法
+
 ### Vue 多页面
 
-使用 Webpack 配置多个入口
+使用 Webpack 配置多个入口，官方文档 https://webpack.js.org/concepts/output/#multiple-entry-points
 
-### 使用 webpack-dev-server && 支持 Webpack HRM（Hot Module Replacement）
+### ⚠️ 使用 webpack-dev-server && 支持 Webpack HRM（Hot Module Replacement）
 
 开启 `devServer`，并且设置 `output.publicPath` 为 webpack-dev-server 的 URL 地址
 
@@ -53,11 +69,11 @@ msg |============ channel ===========｜ <= msg
     transition: transform 10s linear; /* 使用 CSS3 Transition 实现弹幕效果 */
 }
 
-.msg:start {
+.msg-start {
     transform: translate3d(400px, 0, 0); /* 标记弹幕开始位置 */
 }
 
-.msg:end {
+.msg-end {
     transform: translate3d(-100%, 0, 0); /* 标记弹幕结束位置 */
 }
 ```
@@ -70,17 +86,10 @@ msg |============ channel ===========｜ <= msg
 
 ```json
 [
-  {"msg": "Hello"},
-  {"msg": "World"}
+  {"msg": "How are you"},
+  {"msg": "I am fine, thank you, and you"},
+  {"msg": "Me too"}
 ]
 ```
 
 ## 第三方支持
-
-## TODO
-
-- 配置界面
-    - 弹幕：选择设备（显示器）、字体大小、字体颜色，停留时间
-    - 服务：本地服务（选择端口）、远程服务（URL）
-    - 关于：介绍文案
-- 介绍界面
