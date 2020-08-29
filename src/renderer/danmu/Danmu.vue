@@ -78,7 +78,9 @@
                 if (resultChannel !== null) {
                     return Promise.resolve(resultChannel);
                 } else {
-                    return Promise.resolve(setTimeout(this.selectChannel, 300));
+                    return new Promise(resolve =>
+                        setTimeout(() => resolve(this.selectChannel()), 300)
+                    );
                 }
             },
             /**

@@ -13,7 +13,9 @@ export function newDanmuWindow() {
     height: process.env.PROD ? display.size.height : 800,
     x: 0,
     y: 0,
+    // specify false to create a Frameless Window
     frame: process.env.DEV,
+    // makes the window transparent
     transparent: process.env.PROD,
     webPreferences: {
       nodeIntegration: true,

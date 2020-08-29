@@ -34,7 +34,6 @@
                 </select>
             </FormItem>
 
-            <!-- TODO preview -->
             <FormItem :key="7" label="Preview:">
                 <input type="checkbox" v-model="preview">
             </FormItem>
