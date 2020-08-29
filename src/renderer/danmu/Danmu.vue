@@ -93,11 +93,10 @@
                     url = `${this.$store.state.server.remoteServerUrl}?timestamp=${new Date().getTime()}`;
                 }
                 return fetch(url)
-                    .then(response => {
-                        return response.ok
-                            ? response.json()
-                            : Promise.reject(`request failed, response status: ${response.status}`);
-                    })
+                    .then(response => response.ok
+                        ? response.json()
+                        : Promise.reject(`request failed, response status: ${response.status}`)
+                    )
                     .then(json => {
                         if (json.data && json.data instanceof Array) {
                             return json.data.map(item => item.msg);

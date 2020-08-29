@@ -36,7 +36,7 @@
 
             <!-- TODO preview -->
             <FormItem :key="7" label="Preview:">
-                <input type="checkbox">
+                <input type="checkbox" v-model="preview">
             </FormItem>
         </Form>
     </div>
@@ -45,10 +45,11 @@
 <script>
     import Form from "./components/Form";
     import FormItem from "./components/FormItem";
-
     import electron, {ipcRenderer} from 'electron';
+    import testData from './test-data';
 
     const config = electron.remote.getGlobal('__config');
+    const appLocal = electron.remote.app.getLocale();
 
     export default {
         name: "DanmuDisplay",
@@ -72,7 +73,9 @@
                     {speed: 200, desc: 'Default'},
                     {speed: 400, desc: 'Fast'}
                 ],
-                pauseOnMouseHover: config.pauseOnMouseHover
+                pauseOnMouseHover: config.pauseOnMouseHover,
+                preview: false,
+                intervalId: 0
             };
         },
         watch: {
@@ -90,7 +93,44 @@
             },
             pauseOnMouseHover: function (value) {
                 ipcRenderer.send('pauseOnMouseHover', value);
+            },
+            preview: function (value) {
+                // determine the user's language
+                let language = 'en';
+                for (const key in testData) {
+                    if (key === appLocal) {
+                        language = key;
+                        break;
+                    }
+                }
+
+                if (value) {
+                    // start the scheduled task
+                    let i = 0;
+                    this.intervalId = setInterval(() => {
+                        const url = `http://${config.localServerHost}:${config.localServerPort}/push?msg=${testData[language][i]}`;
+                        fetch(url)
+                            .then(response => response.ok
+                                ? Promise.resolve() :
+                                Promise.reject(`request failed, response status: ${response.status}`)
+                            )
+                            .catch(console.error);
+                        if (++i === testData[language].length) {
+                            i = 0;
+                        }
+                    }, 200);
+                } else {
+                    // clear the scheduled task
+                    clearInterval(this.intervalId);
+                    this.intervalId = 0;
+                }
             }
+        },
+        beforeRouteLeave: function (to, from, next) {
+            if (this.preview || this.intervalId !== 0) {
+                clearInterval(this.intervalId);
+            }
+            next();
         }
     }
 </script>

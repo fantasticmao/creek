@@ -4,10 +4,11 @@ import {newTray} from './tray';
 import CreekConfig from './config';
 import logger from './logger';
 
-global.__config = new CreekConfig();
+let tray;
 
 app.whenReady()
-    .then(() => newTray())
+    .then(() => global.__config = new CreekConfig())
+    .then(() => tray = newTray())
     .then(() => {
       /*
        * Load chrome extension: Vue-Devtools.
