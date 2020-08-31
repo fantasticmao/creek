@@ -45,11 +45,11 @@ class CreekServer {
    */
   startup(port, host) {
     if (this.server !== null) {
-      logger.error('local server', 'server has already been started');
+      logger.error('server', 'server has already been started');
       return;
     }
     this.server = this.app.listen(port, host, () => {
-      logger.info('local server', 'start server...');
+      logger.debug('server', 'start server...');
     });
   }
 
@@ -59,7 +59,7 @@ class CreekServer {
    */
   shutdown(callback) {
     if (this.server === null) {
-      logger.error('local server', 'server is not started or has already been shutdown');
+      logger.error('server', 'server is not started or has already been shutdown');
       return;
     }
     this.server.on('close', callback);
@@ -80,7 +80,7 @@ class CreekServer {
         response.status(400).send('\'msg\' must not be null\n');
         return;
       }
-      logger.debug('local server', `push message, ip: ${request.ip}, msg: ${request.query.msg}`);
+      logger.info('server', `push message, ip: ${request.ip}, msg: ${request.query.msg}`);
       this.data.push({msg: request.query.msg});
       response.send('OK\n');
     });
@@ -89,13 +89,13 @@ class CreekServer {
   dump() {
     this.app.get('/dump', (request, response) => {
       if (request.ip !== '127.0.0.1') {
-        logger.error('local server', `illegal request, ip: ${request.ip}`);
+        logger.error('server', `illegal request, ip: ${request.ip}`);
         response.sendStatus(403);
         return;
       }
       const json = JSON.stringify({data: this.data});
       if (this.data.length !== 0) {
-        logger.debug('local server', `dump message, json: ${json}`);
+        logger.info('server', `dump message, json: ${json}`);
       }
       this.data = [];
       response.set('Content-Type', 'application/json');

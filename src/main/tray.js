@@ -93,7 +93,7 @@ function createDanmuWindow() {
   if (danmuWindow === null) {
     danmuWindow = newDanmuWindow();
     danmuWindow.on('closed', () => {
-      logger.info('tray', 'close danmu window...');
+      logger.debug('tray', 'close danmu window...');
       danmuWindow = null;
     });
   }
@@ -111,7 +111,7 @@ function closeDanmuWindow() {
   // close local danmu server
   if (creekServer !== null) {
     creekServer.shutdown(() => {
-      logger.info('tray', 'close local server...');
+      logger.debug('tray', 'close local server...');
       creekServer = null;
     });
   }
@@ -135,7 +135,7 @@ function createConfigWindow(route) {
   if (configWindow === null) {
     configWindow = newConfigWindow(route);
     configWindow.on('closed', () => {
-      logger.info('tray', 'close config window...');
+      logger.debug('tray', 'close config window...');
       configWindow = null;
     });
     return;

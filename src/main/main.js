@@ -17,8 +17,8 @@ app.whenReady()
        */
       if (process.env.DEV) {
         installExtension(VUEJS_DEVTOOLS)
-            .then(name => logger.info('main', `Added Extension:  ${name}`))
-            .catch(error => logger.info('main', `An error occurred: ${error.message}`));
+            .then(name => logger.debug('main', `Added Extension:  ${name}`))
+            .catch(error => logger.debug('main', `An error occurred: ${error.message}`));
       }
     })
     .catch(error => logger.error('main', error.message));

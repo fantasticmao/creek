@@ -9,8 +9,8 @@ import logger from './logger';
 export function newDanmuWindow() {
   const display = screen.getPrimaryDisplay();
   const window = new BrowserWindow({
-    width: process.env.PROD ? display.size.width : 1200,
-    height: process.env.PROD ? display.size.height : 800,
+    width: display.workAreaSize.width,
+    height: display.workAreaSize.height,
     x: 0,
     y: 0,
     // specify false to create a Frameless Window
@@ -29,7 +29,7 @@ export function newDanmuWindow() {
   window.setIgnoreMouseEvents(process.env.PROD);
   window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
   window.loadFile('./dist/danmu.html')
-      .then(() => logger.info('windows', 'create danmu window...'));
+      .then(() => logger.debug('windows', 'create danmu window...'));
   return window;
 }
 
@@ -52,6 +52,6 @@ export function newConfigWindow(route) {
     window.show();
   });
   window.loadFile('./dist/preferences.html', {query: {defaultRoute: route}})
-      .then(() => logger.info('windows', 'create config window...'));
+      .then(() => logger.debug('windows', 'create config window...'));
   return window;
 }

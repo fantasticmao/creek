@@ -99,7 +99,7 @@ class CreekConfig {
     for (const key in this) {
       if (this.hasOwnProperty(key)) {
         ipcMain.on(key, (event, value) => {
-          logger.debug('config', `monitor changed, start updating and flushing data, key: ${key}, value: ${value}`);
+          logger.info('config', `monitor changed, start updating and flushing data, key: ${key}, value: ${value}`);
           this.updateAndFlush(key, value);
         });
       }
@@ -114,7 +114,7 @@ class CreekConfig {
   update(key, value) {
     const oldValue = this[key];
     this[key] = value;
-    logger.debug('config', `updated, key: ${key}, oldValue: ${oldValue}, newValue: ${this[key]}`);
+    logger.info('config', `updated, key: ${key}, oldValue: ${oldValue}, newValue: ${this[key]}`);
   }
 
   flush() {
