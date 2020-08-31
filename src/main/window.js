@@ -29,7 +29,7 @@ export function newDanmuWindow() {
   window.setIgnoreMouseEvents(process.env.PROD);
   window.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
   window.loadFile('./dist/danmu.html')
-      .then(() => logger.debug('windows', 'create danmu window...'));
+      .then(() => logger.debug('window', 'create danmu window...'));
   return window;
 }
 
@@ -52,6 +52,6 @@ export function newConfigWindow(route) {
     window.show();
   });
   window.loadFile('./dist/preferences.html', {query: {defaultRoute: route}})
-      .then(() => logger.debug('windows', 'create config window...'));
+      .then(() => logger.debug('window', 'create config window...'));
   return window;
 }

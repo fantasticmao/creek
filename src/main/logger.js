@@ -28,7 +28,11 @@ const blueCode = getColorCode('blue', true);
 const grayCode = getColorCode('gray', true);
 const defaultCode = getColorCode('default', false);
 
-const logger = {
+/**
+ * Support highlighting logs in terminal
+ * @see https://opensource.com/article/19/9/linux-terminal-colors
+ */
+export default {
   info: function (tag, msg) {
     console.info(`${yellowCode}[${tag}] ${blueCode}[INFO] ${defaultCode}${msg}`);
   },
@@ -39,9 +43,3 @@ const logger = {
     console.error(`${yellowCode}[${tag}] ${redCode}[ERROR] ${defaultCode}${msg}`);
   }
 };
-
-/**
- * Support highlighting logs in terminal
- * @see https://opensource.com/article/19/9/linux-terminal-colors
- */
-export default logger;
