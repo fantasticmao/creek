@@ -34,6 +34,13 @@
         },
         methods: {
             /**
+             * get channel client width
+             * @return {Number} channel width
+             */
+            getChannelWidth: function () {
+                return this.$refs['danmu-channel'].clientWidth;
+            },
+            /**
              * send a danmu messages
              * @param {String} message msg text
              */
@@ -51,7 +58,10 @@
         },
         mounted: function () {
             // channel element's width
-            this.channelWidth = this.$refs['danmu-channel'].clientWidth;
+            this.channelWidth = this.getChannelWidth();
+            window.addEventListener('resize', () => {
+                this.channelWidth = this.getChannelWidth();
+            });
 
             setInterval(() => {
                 if (this.state === 'free' && this.msgQueue.length !== 0) {

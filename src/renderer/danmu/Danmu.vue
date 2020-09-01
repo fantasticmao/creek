@@ -48,6 +48,13 @@
         },
         methods: {
             /**
+             * get container client height
+             * @return {Number} container height
+             */
+            getContainerHeight: function () {
+                return this.$refs['danmu'].clientHeight;
+            },
+            /**
              * batch send danmu messages
              * @param {String} messages msg text array
              */
@@ -110,7 +117,10 @@
         },
         mounted: function () {
             // div element's height
-            this.containerHeight = this.$refs['danmu'].clientHeight;
+            this.containerHeight = this.getContainerHeight();
+            window.addEventListener('resize', () => {
+                this.containerHeight = this.getContainerHeight();
+            });
 
             // fetch danmu messages as scheduled
             setInterval(() => {

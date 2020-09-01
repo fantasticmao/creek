@@ -29,8 +29,10 @@
 
             <!-- TODO choose display screen -->
             <FormItem :key="6" label="Display for Output">
-                <select style="min-width: 120px">
-                    <option>Built-in Display</option>
+                <select style="min-width: 120px" v-model.number="display">
+                    <option v-for="(item, index) in displayArray" :value="item.id">
+                        Display {{ index + 1 }} ({{ item.size.width }} x {{ item.size.height }})
+                    </option>
                 </select>
             </FormItem>
 
@@ -49,6 +51,7 @@
 
     const config = electron.remote.getGlobal('__config');
     const appLocal = electron.remote.app.getLocale();
+    const displayArray = electron.remote.screen.getAllDisplays();
 
     export default {
         name: "DanmuDisplay",
@@ -74,24 +77,29 @@
                 ],
                 pauseOnMouseHover: config.pauseOnMouseHover,
                 preview: false,
-                intervalId: 0
+                intervalId: 0,
+                display: displayArray[0].id,
+                displayArray: displayArray
             };
         },
         watch: {
             fontSize: function (value) {
-                ipcRenderer.send('fontSize', value);
+                ipcRenderer.send('main-config-changed-fontSize', value);
             },
             fontColor: function (value) {
-                ipcRenderer.send('fontColor', value);
+                ipcRenderer.send('main-config-changed-fontColor', value);
             },
             fontOpacity: function (value) {
-                ipcRenderer.send('fontOpacity', value);
+                ipcRenderer.send('main-config-changed-fontOpacity', value);
             },
             scrollSpeed: function (value) {
-                ipcRenderer.send('scrollSpeed', value);
+                ipcRenderer.send('main-config-changed-scrollSpeed', value);
             },
             pauseOnMouseHover: function (value) {
-                ipcRenderer.send('pauseOnMouseHover', value);
+                ipcRenderer.send('main-config-changed-pauseOnMouseHover', value);
+            },
+            display: function (value) {
+                ipcRenderer.send('window-move-danmu', value);
             },
             preview: function (value) {
                 // determine the user's language

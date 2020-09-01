@@ -48,21 +48,22 @@ class CreekServer {
       logger.error('server', 'server has already been started');
       return;
     }
-    this.server = this.app.listen(port, host, () => {
-      logger.debug('server', 'start server...');
-    });
+    this.server = this.app.listen(port, host, () =>
+        logger.debug('server', 'start server...')
+    );
+    this.server.on('close', () =>
+        logger.debug('server', 'close local server...')
+    );
   }
 
   /**
    * Close Node.js http.Server
-   * @param {Function} callback - callback function
    */
-  shutdown(callback) {
+  shutdown() {
     if (this.server === null) {
       logger.error('server', 'server is not started or has already been shutdown');
       return;
     }
-    this.server.on('close', callback);
     this.server.close();
   }
 

@@ -1,6 +1,6 @@
-import {app} from 'electron';
+import {app, ipcMain} from 'electron';
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
-import {newTray} from './tray';
+import CreekTray from './tray';
 import CreekConfig from './config';
 import logger from './logger';
 
@@ -8,7 +8,8 @@ let tray;
 
 app.whenReady()
     .then(() => global.__config = new CreekConfig())
-    .then(() => tray = newTray())
+    .then(() => tray = new CreekTray())
+    .then(() => registerEvents())
     .then(() => {
       /*
        * Load chrome extension: Vue-Devtools.
@@ -26,3 +27,20 @@ app.whenReady()
 app.on('window-all-closed', () => {
   // should not quit
 });
+
+/**
+ * Add event listeners for global config modification
+ */
+function registerEvents() {
+  for (const key in global.__config) {
+    if (global.__config.hasOwnProperty(key)) {
+      ipcMain.on(`main-config-changed-${key}`, (event, value) => {
+        logger.info('main', `monitor global config changed, key: ${key}, value: ${value}`);
+        global.__config.updateAndFlush(key, value);
+        if (tray.danmuWindow !== null) {
+          tray.danmuWindow.webContents.send(key, value);
+        }
+      });
+    }
+  }
+}

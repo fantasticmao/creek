@@ -1,7 +1,6 @@
 import os from 'os';
 import fs from 'fs';
 import path from 'path';
-import {ipcMain} from 'electron';
 import logger from './logger';
 
 // config file path: '~/.creek.json'
@@ -81,7 +80,6 @@ class CreekConfig {
       fs.writeFileSync(file, '{}', encoding);
     }
     this.initProperties();
-    this.registerEvents();
   }
 
   initProperties() {
@@ -91,17 +89,6 @@ class CreekConfig {
       if (config.hasOwnProperty(key) && this.hasOwnProperty(key)
           && config[key]) {
         this[key] = config[key];
-      }
-    }
-  }
-
-  registerEvents() {
-    for (const key in this) {
-      if (this.hasOwnProperty(key)) {
-        ipcMain.on(key, (event, value) => {
-          logger.info('config', `monitor changed, start updating and flushing data, key: ${key}, value: ${value}`);
-          this.updateAndFlush(key, value);
-        });
       }
     }
   }

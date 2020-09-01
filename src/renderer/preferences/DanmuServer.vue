@@ -41,13 +41,13 @@
         },
         watch: {
             enableLocalServer: function (value) {
-                ipcRenderer.send('enableLocalServer', value);
+                ipcRenderer.send('main-config-changed-enableLocalServer', value);
             },
             localServerPort: function (value) {
-                ipcRenderer.send('localServerPort', value);
+                ipcRenderer.send('main-config-changed-localServerPort', value);
             },
             remoteServerUrl: function (value) {
-                ipcRenderer.send('remoteServerUrl', value);
+                ipcRenderer.send('main-config-changed-remoteServerUrl', value);
             }
         }
     }

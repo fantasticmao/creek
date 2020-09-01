@@ -65,7 +65,7 @@
                 throw new Error('failed to match the default route');
             }
 
-            ipcRenderer.on('push-route', (event, route) => {
+            ipcRenderer.on('window-config-route', (event, route) => {
                 this.handleClickToolbarItem(route);
             });
         }
