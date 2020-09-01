@@ -1,4 +1,4 @@
-import {app, ipcMain} from 'electron';
+import {app, ipcMain, screen} from 'electron';
 import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
 import CreekTray from './tray';
 import CreekConfig from './config';
@@ -28,10 +28,8 @@ app.on('window-all-closed', () => {
   // should not quit
 });
 
-/**
- * Add event listeners for global config modification
- */
 function registerEvents() {
+  // add event listeners for global config modification
   for (const key in global.__config) {
     if (global.__config.hasOwnProperty(key)) {
       ipcMain.on(`main-config-changed-${key}`, (event, value) => {
@@ -43,4 +41,23 @@ function registerEvents() {
       });
     }
   }
+
+  // add event listeners for window movement
+  ipcMain.on('window-danmu-move', (event, displayId) => {
+    logger.info('main', `capture moving danmu window event, displayId: ${displayId}`);
+    if (tray.danmuWindow !== null) {
+      const toDisplay = screen.getAllDisplays().filter(display => display.id === displayId);
+      if (!toDisplay || toDisplay.length !== 1) {
+        logger.error('main', 'move danmu window error');
+        return;
+      }
+
+      tray.danmuWindow.setBounds({
+        width: toDisplay[0].workArea.width,
+        height: toDisplay[0].workArea.height,
+        x: toDisplay[0].workArea.x,
+        y: toDisplay[0].workArea.y
+      });
+    }
+  });
 }

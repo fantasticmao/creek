@@ -1,4 +1,4 @@
-import {BrowserWindow, ipcMain, screen} from 'electron';
+import {BrowserWindow, screen} from 'electron';
 import logger from './logger';
 
 /**
@@ -8,11 +8,12 @@ import logger from './logger';
 class DanmuWindow extends BrowserWindow {
 
   constructor() {
+    const mainDisplay = screen.getPrimaryDisplay();
     super({
-      width: screen.getPrimaryDisplay().workAreaSize.width,
-      height: screen.getPrimaryDisplay().workAreaSize.height,
-      x: 0,
-      y: 0,
+      width: mainDisplay.workArea.width,
+      height: mainDisplay.workArea.height,
+      x: mainDisplay.workArea.x,
+      y: mainDisplay.workArea.y,
       // specify false to create a Frameless Window
       frame: process.env.DEV,
       // makes the window transparent
@@ -28,26 +29,7 @@ class DanmuWindow extends BrowserWindow {
     this.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
     this.loadFile('./dist/danmu.html')
         .then(() => logger.debug('window', 'create danmu window...'));
-    this.registerEvents();
-  }
-
-  registerEvents() {
     this.on('closed', () => logger.debug('window', 'close danmu window...'));
-
-    // add event listeners for window movement
-    ipcMain.on('window-danmu-move', (event, displayId) => {
-      const toDisplay = screen.getAllDisplays().filter(display => display.id === displayId);
-      if (!toDisplay || toDisplay.length !== 1) {
-        logger.error('window', 'move danmu window error');
-        return;
-      }
-      this.setBounds({
-        width: toDisplay[0].workAreaSize.width,
-        height: toDisplay[0].workAreaSize.height,
-        x: 0,
-        y: 0
-      });
-    });
   }
 }
 
@@ -70,10 +52,6 @@ class ConfigWindow extends BrowserWindow {
     this.once('ready-to-show', () => this.show());
     this.loadFile('./dist/preferences.html', {query: {defaultRoute: route}})
         .then(() => logger.debug('window', 'create config window...'));
-    this.registerEvents();
-  }
-
-  registerEvents() {
     this.on('closed', () => logger.debug('window', 'close config window...'));
   }
 }

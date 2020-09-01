@@ -99,7 +99,7 @@
                 ipcRenderer.send('main-config-changed-pauseOnMouseHover', value);
             },
             display: function (value) {
-                ipcRenderer.send('window-move-danmu', value);
+                ipcRenderer.send('window-danmu-move', value);
             },
             preview: function (value) {
                 // determine the user's language
