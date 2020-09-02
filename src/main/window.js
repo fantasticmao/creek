@@ -1,5 +1,6 @@
 import {BrowserWindow, screen} from 'electron';
 import logger from './logger';
+import {getEnsureDisplay} from "./config";
 
 /**
  * Danmu window
@@ -8,12 +9,12 @@ import logger from './logger';
 class DanmuWindow extends BrowserWindow {
 
   constructor() {
-    const mainDisplay = screen.getPrimaryDisplay();
+    const primaryDisplay = screen.getPrimaryDisplay();
     super({
-      width: mainDisplay.workArea.width,
-      height: mainDisplay.workArea.height,
-      x: mainDisplay.workArea.x,
-      y: mainDisplay.workArea.y,
+      width: primaryDisplay.workArea.width,
+      height: primaryDisplay.workArea.height,
+      x: primaryDisplay.workArea.x,
+      y: primaryDisplay.workArea.y,
       // specify false to create a Frameless Window
       frame: process.env.DEV,
       // makes the window transparent
@@ -30,6 +31,20 @@ class DanmuWindow extends BrowserWindow {
     this.loadFile('./dist/danmu.html')
         .then(() => logger.debug('window', 'create danmu window...'));
     this.on('closed', () => logger.debug('window', 'close danmu window...'));
+
+    /*
+     * Electron can only specify the maximum size of the window as the size of the Primary Display,
+     * so we need to manually reset the window boundary.
+     */
+    if (global.__config.displayId !== 0) {
+      const ensureDisplay = getEnsureDisplay(global.__config.displayId);
+      this.setBounds({
+        width: ensureDisplay.workArea.width,
+        height: ensureDisplay.workArea.height,
+        x: ensureDisplay.workArea.x,
+        y: ensureDisplay.workArea.y
+      });
+    }
   }
 }
 
@@ -55,6 +70,5 @@ class ConfigWindow extends BrowserWindow {
     this.on('closed', () => logger.debug('window', 'close config window...'));
   }
 }
-
 
 export {ConfigWindow, DanmuWindow};

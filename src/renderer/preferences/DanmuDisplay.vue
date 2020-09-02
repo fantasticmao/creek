@@ -51,7 +51,6 @@
 
     const config = electron.remote.getGlobal('__config');
     const appLocal = electron.remote.app.getLocale();
-    const displayArray = electron.remote.screen.getAllDisplays();
 
     export default {
         name: "DanmuDisplay",
@@ -64,6 +63,7 @@
             for (let i = 20; i < 100; i += 4) {
                 fontSizeArray.push(i);
             }
+            let ensureDisplay = this.getEnsureDisplay(config.displayId);
             return {
                 fontSize: config.fontSize,
                 fontSizeArray: fontSizeArray,
@@ -78,9 +78,30 @@
                 pauseOnMouseHover: config.pauseOnMouseHover,
                 preview: false,
                 intervalId: 0,
-                display: displayArray[0].id,
-                displayArray: displayArray
+                display: ensureDisplay.id,
+                displayArray: electron.remote.screen.getAllDisplays()
             };
+        },
+        methods: {
+            getEnsureDisplay: function (displayId) {
+                if (displayId !== 0) {
+                    const ensureDisplay = electron.remote.screen.getAllDisplays()
+                        .filter(display => display.id === displayId);
+                    if (ensureDisplay.length === 1) {
+                        return ensureDisplay[0];
+                    }
+                }
+                return electron.remote.screen.getPrimaryDisplay();
+            },
+            updateDisplayArray: function () {
+                this.displayArray = electron.remote.screen.getAllDisplays();
+                this.display = this.getEnsureDisplay(config.displayId).id;
+            }
+        },
+        mounted: function () {
+            electron.remote.screen.on('display-added', this.updateDisplayArray);
+            electron.remote.screen.on('display-removed', this.updateDisplayArray);
+            electron.remote.screen.on('display-metrics-changed', this.updateDisplayArray);
         },
         watch: {
             fontSize: function (value) {
@@ -99,6 +120,7 @@
                 ipcRenderer.send('main-config-changed-pauseOnMouseHover', value);
             },
             display: function (value) {
+                ipcRenderer.send('main-config-changed-displayId', value);
                 ipcRenderer.send('window-danmu-move', value);
             },
             preview: function (value) {

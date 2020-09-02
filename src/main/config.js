@@ -2,6 +2,7 @@ import os from 'os';
 import fs from 'fs';
 import path from 'path';
 import logger from './logger';
+import {screen} from "electron";
 
 // config file path: '~/.creek.json'
 const file = path.resolve(os.homedir(), '.creek.json');
@@ -18,6 +19,13 @@ class CreekConfig {
    * @type {boolean}
    */
   startupState = false;
+
+  /**
+   * Display id used to record the last used display id when using multiple displays
+   * @type {number}
+   * @see {Electron.Display.id}
+   */
+  displayId = 0;
 
   /**
    * danmu font size
@@ -112,3 +120,21 @@ class CreekConfig {
 }
 
 export default CreekConfig;
+
+/**
+ * Get the last used display id
+ * @param {Number} displayId
+ * @return {Electron.Display}
+ */
+export function getEnsureDisplay(displayId) {
+  if (displayId !== 0) {
+    const ensureDisplay = screen.getAllDisplays()
+        .filter(display => display.id === displayId);
+    if (ensureDisplay.length === 1) {
+      return ensureDisplay[0];
+    } else {
+      logger.error('config', `can not find the display with id: ${displayId}`);
+    }
+  }
+  return screen.getPrimaryDisplay();
+}

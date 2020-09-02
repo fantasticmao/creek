@@ -46,7 +46,8 @@ function registerEvents() {
   ipcMain.on('window-danmu-move', (event, displayId) => {
     logger.info('main', `capture moving danmu window event, displayId: ${displayId}`);
     if (tray.danmuWindow !== null) {
-      const toDisplay = screen.getAllDisplays().filter(display => display.id === displayId);
+      const toDisplay = screen.getAllDisplays()
+          .filter(display => display.id === displayId);
       if (!toDisplay || toDisplay.length !== 1) {
         logger.error('main', 'move danmu window error');
         return;
