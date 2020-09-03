@@ -1,3 +1,8 @@
+import log from 'electron-log';
+
+log.transports.console.format = '[{h}:{i}:{s}.{ms}] {text}';
+log.transports.file.format = '[{y}-{m}-{d} {h}:{i}:{s}.{ms}] {text}';
+
 const ansiConstants = {
   escStart: '\x1B[',
   escEnd: 'm',
@@ -34,12 +39,12 @@ const defaultCode = getColorCode('default', false);
  */
 export default {
   info: function (tag, msg) {
-    console.info(`${yellowCode}[${tag}] ${blueCode}[INFO] ${defaultCode}${msg}`);
+    log.info(`${yellowCode}[${tag}] ${blueCode}[INFO] ${defaultCode}${msg}`);
   },
   debug: function (tag, msg) {
-    console.debug(`${yellowCode}[${tag}] ${grayCode}[DEBUG] ${defaultCode}${msg}`);
+    log.debug(`${yellowCode}[${tag}] ${grayCode}[DEBUG] ${defaultCode}${msg}`);
   },
   error: function (tag, msg) {
-    console.error(`${yellowCode}[${tag}] ${redCode}[ERROR] ${defaultCode}${msg}`);
+    log.error(`${yellowCode}[${tag}] ${redCode}[ERROR] ${defaultCode}${msg}`);
   }
 };

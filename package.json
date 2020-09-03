@@ -25,10 +25,25 @@
     "run:electron": "electron .",
     "run:dev-server": "webpack-dev-server --config build-configs/webpack.renderer.dev.js",
     "build:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.config.js",
-    "build:prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.config.js"
+    "build:prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.config.js",
+    "pack": "electron-builder"
+  },
+  "productName": "Creek",
+  "build": {
+    "appId": "cn.fantasticmao.creek",
+    "directories": {
+      "output": "./out"
+    },
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "mac": {
+      "category": "public.app-category.utilities"
+    }
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "electron-log": "^4.2.4",
     "express": "^4.17.1",
     "vue": "^2.6.11",
     "vue-router": "^3.4.0",
@@ -43,6 +58,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^4.0.0",
     "electron": "^8.4.1",
+    "electron-builder": "^22.8.0",
     "electron-devtools-installer": "^3.1.1",
     "html-webpack-plugin": "^4.3.0",
     "rimraf": "^3.0.2",

@@ -10,6 +10,7 @@ app.whenReady()
     .then(() => global.__config = new CreekConfig())
     .then(() => tray = new CreekTray())
     .then(() => registerEvents())
+    .then(() => logger.debug('main', 'application ready'))
     .then(() => {
       /*
        * Load chrome extension: Vue-Devtools.
@@ -27,6 +28,8 @@ app.whenReady()
 app.on('window-all-closed', () => {
   // should not quit
 });
+
+app.on('quit', () => logger.debug('main', 'application quit'));
 
 function registerEvents() {
   // add event listeners for global config modification

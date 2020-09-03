@@ -1,6 +1,13 @@
-import {Menu, shell, Tray} from 'electron';
+import {Menu, nativeImage, shell, Tray} from 'electron';
 import CreekServer from './server';
 import {ConfigWindow, DanmuWindow} from './window';
+import logoUrl from '../static/logo/creek.png';
+import serverOnUrl from '../static/icons/server-on.png';
+import serverOffUrl from '../static/icons/server-off.png';
+
+const logo = nativeImage.createFromDataURL(logoUrl);
+const serverOn = nativeImage.createFromDataURL(serverOnUrl);
+const serverOff = nativeImage.createFromDataURL(serverOffUrl);
 
 /**
  * Creek Tray
@@ -46,7 +53,7 @@ class CreekTray {
   ];
 
   constructor() {
-    this.tray = new Tray('./src/static/creek.png');
+    this.tray = new Tray(logo);
     this.tray.setToolTip('Creek');
     if (global.__config.startupState) {
       this.turnOn();
@@ -66,7 +73,7 @@ class CreekTray {
     const menuTemplate = [{
       label: 'Creek: On',
       enabled: false,
-      icon: './src/static/server-on.png'
+      icon: serverOn
     }, {
       label: 'Turn Creek Off',
       accelerator: 'Command+S',
@@ -86,7 +93,7 @@ class CreekTray {
     const menuTemplate = [{
       label: 'Creek: Off',
       enabled: false,
-      icon: './src/static/server-off.png'
+      icon: serverOff
     }, {
       label: 'Turn Creek On',
       accelerator: 'Command+S',
