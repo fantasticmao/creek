@@ -1,6 +1,6 @@
 <template>
     <div class="about-creek">
-        <div class="logo"></div>
+        <div class="logo"><img :src="logoUrl" alt="logo"></div>
 
         <p class="name">Creek</p>
 
@@ -14,9 +14,15 @@
 
 <script>
     import {shell} from 'electron';
+    import logoUrl from '../../static/icon-white.iconset/icon_64x64.png';
 
     export default {
         name: "AboutCreek",
+        data: function () {
+            return {
+                logoUrl: logoUrl
+            }
+        },
         methods: {
             handleClickGitHub: function () {
                 shell.openExternal('https://github.com/fantasticmao/creek/');
@@ -46,7 +52,6 @@
     .about-creek .logo {
         width: 64px;
         height: 64px;
-        background-color: #FFFFFF;
     }
 
     .about-creek .name {

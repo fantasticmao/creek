@@ -38,7 +38,9 @@
       "mirror": "https://npm.taobao.org/mirrors/electron/"
     },
     "mac": {
-      "category": "public.app-category.utilities"
+      "category": "public.app-category.utilities",
+      "target": "dmg",
+      "icon": "./src/static/icon-dark.icns"
     }
   },
   "dependencies": {
