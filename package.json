@@ -26,11 +26,12 @@
     "run:dev-server": "webpack-dev-server --config build-configs/webpack.renderer.dev.js",
     "build:dev": "cross-env NODE_ENV=development webpack --config build-configs/webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config build-configs/webpack.config.js",
-    "pack": "electron-builder"
+    "pack:mac": "electron-builder build --mac",
+    "pack:win": "electron-builder build --win"
   },
-  "productName": "Creek",
   "build": {
     "appId": "cn.fantasticmao.creek",
+    "productName": "Creek",
     "directories": {
       "output": "./out"
     },
@@ -41,6 +42,10 @@
       "category": "public.app-category.utilities",
       "target": "dmg",
       "icon": "./src/static/icon-dark.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./src/static/icon-dark.ico"
     }
   },
   "dependencies": {

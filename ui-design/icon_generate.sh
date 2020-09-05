@@ -19,6 +19,8 @@ generate() {
     sips -z 512 512 ${icon_name}.png --out ${tmp_dir}/icon_512x512.png
 
     iconutil -c icns ./${tmp_dir}/
+
+    magick convert ./${tmp_dir}/* ${icon_name}.ico
 }
 
 generate icon-dark
