@@ -3,6 +3,11 @@ import installExtension, {VUEJS_DEVTOOLS} from 'electron-devtools-installer';
 import CreekTray from './tray';
 import CreekConfig from './config';
 import logger from './logger';
+import system from "./system";
+
+if (system.platform.isMacintosh) {
+  app.dock.hide();
+}
 
 let tray;
 

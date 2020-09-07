@@ -137,7 +137,7 @@
                     // start the scheduled task
                     let i = 0;
                     this.intervalId = setInterval(() => {
-                        const url = `http://${config.localServerHost}:${config.localServerPort}/push?msg=${testData[language][i]}`;
+                        const url = `http://${config.localServerHost}:${config.localServerPort}/?msg=${testData[language][i]}`;
                         fetch(url)
                             .then(response => response.ok
                                 ? Promise.resolve() :

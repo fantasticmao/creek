@@ -31,7 +31,6 @@ class CreekServer {
     // create app
     this.app = express();
     // register HTTP API
-    this.welcome();
     this.push();
     this.dump();
   }
@@ -69,16 +68,10 @@ class CreekServer {
 
   // server api
 
-  welcome() {
-    this.app.get('/', (request, response) => {
-      response.send('Hello, Creek!\n');
-    });
-  }
-
   push() {
-    this.app.get('/push', (request, response) => {
+    this.app.get('/', (request, response) => {
       if (!request.query.msg) {
-        response.status(400).send('\'msg\' must not be null\n');
+        response.send('Hello, Creek!\n');
         return;
       }
       logger.info('server', `push message, ip: ${request.ip}, msg: ${request.query.msg}`);
