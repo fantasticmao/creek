@@ -1,6 +1,7 @@
-import {Menu, nativeImage, shell, Tray} from 'electron';
+import {app, Menu, nativeImage, shell, Tray} from 'electron';
 import CreekServer from './server';
 import {ConfigWindow, DanmuWindow} from './window';
+import {i18n, MODULE_TRAY} from '../common/i18n';
 import logoUrl from '../static/icon-white.iconset/icon_16x16.png';
 import onUrl from '../static/on.png';
 import offUrl from '../static/off.png';
@@ -41,18 +42,35 @@ class CreekTray {
   creekServer = null;
 
   /**
+   * Tray's i18n words
+   * @type {CreekTrayWords|CreekPreferencesWords}
+   */
+  trayWords = i18n(app.getLocale(), MODULE_TRAY);
+
+  /**
    * Tray's menu base template
    */
-  baseMenuTemplate = [
-    {type: 'separator'},
-    {label: 'Check for Updates...', click: () => shell.openExternal('https://github.com/fantasticmao/creek/releases')},
-    {label: 'Preferences...', accelerator: 'Command+,', click: () => this.createConfigWindow('display')},
-    {label: 'About Creek', click: () => this.createConfigWindow('about')},
-    {type: 'separator'},
-    {label: 'Quite Creek', accelerator: 'Command+Q', role: 'quit'}
-  ];
+  baseMenuTemplate = [{
+    type: 'separator'
+  }, {
+    label: this.trayWords.checkForUpdates,
+    click: () => shell.openExternal('https://github.com/fantasticmao/creek/releases')
+  }, {
+    label: this.trayWords.preferences,
+    accelerator: 'Command+,',
+    click: () => this.createConfigWindow('display')
+  }, {
+    label: this.trayWords.aboutCreek,
+    click: () => this.createConfigWindow('about')
+  }, {
+    type: 'separator'
+  }, {
+    label: this.trayWords.quiteCreek,
+    accelerator: 'Command+Q', role: 'quit'
+  }];
 
   constructor() {
+    console.log('app.getLocale: ' + app.getLocale());
     this.tray = new Tray(logo);
     this.tray.setToolTip('Creek');
     if (global.__config.startupState) {
@@ -71,11 +89,11 @@ class CreekTray {
 
     // reset tray menu
     const menuTemplate = [{
-      label: 'Creek: On',
+      label: this.trayWords.stateOn,
       enabled: false,
       icon: on
     }, {
-      label: 'Turn Creek Off',
+      label: this.trayWords.turnOff,
       accelerator: 'Command+S',
       click: () => this.turnOff()
     }].concat(this.baseMenuTemplate);
@@ -91,11 +109,11 @@ class CreekTray {
 
     // reset tray menu
     const menuTemplate = [{
-      label: 'Creek: Off',
+      label: this.trayWords.stateOff,
       enabled: false,
       icon: off
     }, {
-      label: 'Turn Creek On',
+      label: this.trayWords.turnOn,
       accelerator: 'Command+S',
       click: () => this.turnOn()
     }].concat(this.baseMenuTemplate);
