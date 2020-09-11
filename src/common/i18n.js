@@ -211,7 +211,7 @@ const allLanguages = {
 };
 
 /**
- *
+ * Choose phrases in the target language
  * @param targetLanguage
  * @param module
  * @return {CreekTrayWords|CreekPreferencesWords}
@@ -227,7 +227,7 @@ export function i18n(targetLanguage, module) {
   }
 
   const words = allLanguages[lang][module];
-  logger.debug('i18n', `select lang: ${lang} module: ${module}`);
+  logger.debug('i18n', `selected lang: ${lang}, module: ${module}`);
   return words;
 }
 
