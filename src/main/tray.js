@@ -2,9 +2,9 @@ import {app, Menu, nativeImage, shell, Tray} from 'electron';
 import CreekServer from './server';
 import {ConfigWindow, DanmuWindow} from './window';
 import {i18n, MODULE_TRAY} from '../common/i18n';
-import logoUrl from '../static/icon-white.iconset/icon_16x16.png';
-import onUrl from '../static/on.png';
-import offUrl from '../static/off.png';
+import logoUrl from '../resources/icon-white.iconset/icon_16x16.png';
+import onUrl from '../resources/on.png';
+import offUrl from '../resources/off.png';
 
 const logo = nativeImage.createFromDataURL(logoUrl);
 const on = nativeImage.createFromDataURL(onUrl);

@@ -29,9 +29,9 @@
     import Toolbar from "./components/Toolbar";
     import ToolbarItem from "./components/ToolbarItem";
 
-    import IconDisplay from '../../static/display.svg';
-    import IconServer from '../../static/server.svg';
-    import IconAbout from '../../static/about.svg';
+    import IconDisplay from '../../resources/display.svg';
+    import IconServer from '../../resources/server.svg';
+    import IconAbout from '../../resources/about.svg';
 
     import {ipcRenderer} from 'electron';
 

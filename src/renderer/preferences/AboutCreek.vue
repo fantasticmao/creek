@@ -14,7 +14,7 @@
 
 <script>
     import {shell} from 'electron';
-    import logoUrl from '../../static/icon-white.iconset/icon_64x64.png';
+    import logoUrl from '../../resources/icon-white.iconset/icon_64x64.png';
     import packageJson from '../../../package.json';
 
     export default {

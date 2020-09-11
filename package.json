@@ -41,11 +41,11 @@
     "mac": {
       "category": "public.app-category.utilities",
       "target": "dmg",
-      "icon": "./src/static/icon-dark.icns"
+      "icon": "./src/resources/icon-dark.icns"
     },
     "win": {
       "target": "nsis",
-      "icon": "./src/static/icon-dark.ico"
+      "icon": "./src/resources/icon-dark.ico"
     }
   },
   "dependencies": {
