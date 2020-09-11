@@ -50,6 +50,17 @@ function registerEvents() {
     }
   }
 
+  // add event listeners for tray turn on
+  ipcMain.on('tray-turn-on', (event) => {
+    logger.info('main', 'capture turn on Creek event');
+    if (!global.__config.startupState) {
+      tray.turnOn();
+      event.returnValue = true;
+    } else {
+      event.returnValue = false;
+    }
+  });
+
   // add event listeners for window movement
   ipcMain.on('window-danmu-move', (event, displayId) => {
     logger.info('main', `capture moving danmu window event, displayId: ${displayId}`);

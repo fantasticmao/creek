@@ -51,11 +51,14 @@ class CreekPreferencesWords {
     this.fontColor = options.fontColor;
     this.fontOpacity = options.fontOpacity;
     this.scrollSpeed = options.scrollSpeed;
-    this.scrollSpeedSlow = options.scrollSpeedSlow;
-    this.scrollSpeedDefault = options.scrollSpeedDefault;
-    this.scrollSpeedFast = options.scrollSpeedFast;
+    this.scrollSpeed_Slow = options.scrollSpeed_Slow;
+    this.scrollSpeed_Default = options.scrollSpeed_Default;
+    this.scrollSpeed_Fast = options.scrollSpeed_Fast;
     this.displayForOutput = options.displayForOutput;
     this.preview = options.preview;
+    this.preview_Message = options.preview_Message;
+    this.preview_TurnOn = options.preview_TurnOn;
+    this.preview_Cancel = options.preview_Cancel;
     this.previewData = options.previewData;
     this.enableLocalServer = options.enableLocalServer;
     this.localServerPort = options.localServerPort;
@@ -88,11 +91,14 @@ const allLanguages = {
       fontColor: 'Font Color',
       fontOpacity: 'Font Opacity',
       scrollSpeed: 'Scroll Speed',
-      scrollSpeedSlow: 'Slow',
-      scrollSpeedDefault: 'Default',
-      scrollSpeedFast: 'Fast',
+      scrollSpeed_Slow: 'Slow',
+      scrollSpeed_Default: 'Default',
+      scrollSpeed_Fast: 'Fast',
       displayForOutput: 'Display for Output',
       preview: 'Preview',
+      preview_Message: 'Preview changes need to Turn Creek On.',
+      preview_TurnOn: 'Turn On',
+      preview_Cancel: 'Cancel',
       previewData: [
         "Hiding from the rain and snow",
         "Trying to forget but I won't let go",
@@ -161,11 +167,14 @@ const allLanguages = {
       fontColor: '字体颜色',
       fontOpacity: '不透明度',
       scrollSpeed: '滚动速度',
-      scrollSpeedSlow: '慢',
-      scrollSpeedDefault: '默认',
-      scrollSpeedFast: '快',
+      scrollSpeed_Slow: '慢',
+      scrollSpeed_Default: '默认',
+      scrollSpeed_Fast: '快',
       displayForOutput: '显示设备',
       preview: '预览',
+      preview_Message: '预览配置更改时，请先打开 Creek。',
+      preview_TurnOn: '打开',
+      preview_Cancel: '取消',
       previewData: [
         "窗外的麻雀在电线杆上多嘴",
         "你说这一句很有夏天的感觉",

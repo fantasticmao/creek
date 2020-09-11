@@ -36,7 +36,7 @@
             </FormItem>
 
             <FormItem :key="7" label="preview">
-                <input type="checkbox" v-model="preview">
+                <input type="checkbox" :checked="preview" @click="handlePreviewClick">
             </FormItem>
         </Form>
     </div>
@@ -46,8 +46,11 @@
     import Form from "./components/Form";
     import FormItem from "./components/FormItem";
     import electron, {ipcRenderer} from 'electron';
+    import logoUrl from '../../resources/icon-white.iconset/icon_64x64.png';
 
     const config = electron.remote.getGlobal('__config');
+    const dialog = electron.remote.dialog;
+    const nativeImage = electron.remote.nativeImage;
 
     export default {
         name: "DanmuDisplay",
@@ -68,9 +71,9 @@
                 fontOpacity: config.fontOpacity,
                 scrollSpeed: config.scrollSpeed,
                 scrollSpeedEnum: [
-                    {speed: 100, desc: 'scrollSpeedSlow'},
-                    {speed: 200, desc: 'scrollSpeedDefault'},
-                    {speed: 400, desc: 'scrollSpeedFast'}
+                    {speed: 100, desc: 'scrollSpeed_Slow'},
+                    {speed: 200, desc: 'scrollSpeed_Default'},
+                    {speed: 400, desc: 'scrollSpeed_Fast'}
                 ],
                 pauseOnMouseHover: config.pauseOnMouseHover,
                 preview: false,
@@ -93,6 +96,24 @@
             updateDisplayArray: function () {
                 this.displayArray = electron.remote.screen.getAllDisplays();
                 this.display = this.getEnsureDisplay(config.displayId).id;
+            },
+            handlePreviewClick: function (event) {
+                if (!this.preview && !config.startupState) {
+                    const selectButtonId = dialog.showMessageBoxSync({
+                        message: this.$i18n('preview_Message'),
+                        buttons: [this.$i18n('preview_TurnOn'), this.$i18n('preview_Cancel')],
+                        defaultId: 0,
+                        icon: nativeImage.createFromDataURL(logoUrl)
+                    });
+                    if (selectButtonId !== 0) { // Cancel
+                        event.preventDefault();
+                        return;
+                    } else { // Turn On
+                        const result = ipcRenderer.sendSync('tray-turn-on');
+                        console.info(`trying to turn Creek on: ${result}`);
+                    }
+                }
+                this.preview = event.target.checked;
             }
         },
         mounted: function () {
