@@ -2,17 +2,17 @@
     <div class="preferences">
         <div class="header">
             <Toolbar>
-                <ToolbarItem :key="1" label="Display" :icon="iconDisplay"
+                <ToolbarItem :key="1" label="display" :icon="iconDisplay"
                              :active="route === 'display'"
                              @click.native="handleClickToolbarItem('display')">
                 </ToolbarItem>
 
-                <ToolbarItem :key="2" label="Server" :icon="iconServer"
+                <ToolbarItem :key="2" label="server" :icon="iconServer"
                              :active="route === 'server'"
                              @click.native="handleClickToolbarItem('server')">
                 </ToolbarItem>
 
-                <ToolbarItem :key="3" label="About" :icon="iconAbout"
+                <ToolbarItem :key="3" label="about" :icon="iconAbout"
                              :active="route === 'about'"
                              @click.native="handleClickToolbarItem('about')">
                 </ToolbarItem>

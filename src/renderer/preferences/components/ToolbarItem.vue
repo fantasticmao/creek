@@ -6,7 +6,7 @@
 
         <div class="label">
             <span>
-                {{ label }}
+                {{ $i18n(label) }}
             </span>
         </div>
     </div>

@@ -23,10 +23,44 @@ class CreekTrayWords {
 }
 
 class CreekPreferencesWords {
+  title;
+  display;
+  server;
+  about;
+  fontSize;
+  fontColor;
+  fontOpacity;
+  scrollSpeed;
+  scrollSpeedSlow;
+  scrollSpeedDefault;
+  scrollSpeedFast;
+  displayForOutput;
+  preview;
   previewData;
+  enableLocalServer;
+  localServerPort;
+  remoteServerURL;
+  currentVersion;
 
   constructor(options) {
+    this.title = options.title;
+    this.display = options.display;
+    this.server = options.server;
+    this.about = options.about;
+    this.fontSize = options.fontSize;
+    this.fontColor = options.fontColor;
+    this.fontOpacity = options.fontOpacity;
+    this.scrollSpeed = options.scrollSpeed;
+    this.scrollSpeedSlow = options.scrollSpeedSlow;
+    this.scrollSpeedDefault = options.scrollSpeedDefault;
+    this.scrollSpeedFast = options.scrollSpeedFast;
+    this.displayForOutput = options.displayForOutput;
+    this.preview = options.preview;
     this.previewData = options.previewData;
+    this.enableLocalServer = options.enableLocalServer;
+    this.localServerPort = options.localServerPort;
+    this.remoteServerURL = options.remoteServerURL;
+    this.currentVersion = options.currentVersion;
   }
 }
 
@@ -46,6 +80,19 @@ const allLanguages = {
       quiteCreek: 'Quite Creek'
     }),
     'preferences': new CreekPreferencesWords({
+      title: 'Preferences',
+      display: 'Display',
+      server: 'Server',
+      about: 'About',
+      fontSize: 'Font Size',
+      fontColor: 'Font Color',
+      fontOpacity: 'Font Opacity',
+      scrollSpeed: 'Scroll Speed',
+      scrollSpeedSlow: 'Slow',
+      scrollSpeedDefault: 'Default',
+      scrollSpeedFast: 'Fast',
+      displayForOutput: 'Display for Output',
+      preview: 'Preview',
       previewData: [
         "Hiding from the rain and snow",
         "Trying to forget but I won't let go",
@@ -87,7 +134,11 @@ const allLanguages = {
         "Give me your hand and hold me",
         "Show me what love is - be my guiding star",
         "It's easy take me to your heart"
-      ]
+      ],
+      enableLocalServer: 'Enable Local Server',
+      localServerPort: 'Local Server Port',
+      remoteServerURL: 'Remote Server URL',
+      currentVersion: 'Current version',
     })
   },
   'zh-CN': {
@@ -102,6 +153,19 @@ const allLanguages = {
       quiteCreek: '退出 Creek'
     }),
     'preferences': new CreekPreferencesWords({
+      title: '偏好设置',
+      display: '显示',
+      server: '服务',
+      about: '关于',
+      fontSize: '字体大小',
+      fontColor: '字体颜色',
+      fontOpacity: '不透明度',
+      scrollSpeed: '滚动速度',
+      scrollSpeedSlow: '慢',
+      scrollSpeedDefault: '默认',
+      scrollSpeedFast: '快',
+      displayForOutput: '显示设备',
+      preview: '预览',
       previewData: [
         "窗外的麻雀在电线杆上多嘴",
         "你说这一句很有夏天的感觉",
@@ -137,7 +201,11 @@ const allLanguages = {
         "我接着写",
         "把永远爱你写进诗的结尾",
         "你是我唯一想要的了解"
-      ]
+      ],
+      enableLocalServer: '启动本地服务',
+      localServerPort: '本地服务端口',
+      remoteServerURL: '远程服务 URL',
+      currentVersion: '当前版本',
     })
   }
 };

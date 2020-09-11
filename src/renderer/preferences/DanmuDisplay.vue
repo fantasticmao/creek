@@ -1,7 +1,7 @@
 <template>
     <div class="danmu-display">
         <Form>
-            <FormItem :key="1" label="Font Size:">
+            <FormItem :key="1" label="fontSize">
                 <select style="width: 80px" v-model.number="fontSize">
                     <option v-for="size in fontSizeArray" :value="size">
                         {{ size }}
@@ -9,26 +9,25 @@
                 </select>
             </FormItem>
 
-            <FormItem :key="2" label="Font Color:">
+            <FormItem :key="2" label="fontColor">
                 <input type="text" style="width: 80px" placeholder="#FFFFFF"
                        v-model.lazy="fontColor">
             </FormItem>
 
-            <FormItem :key="3" label="Font Opacity:">
+            <FormItem :key="3" label="fontOpacity">
                 <input type="range" style="max-width: 120px" min="0" max="1" step="0.05"
                        v-model.number="fontOpacity">
             </FormItem>
 
-            <FormItem :key="4" label="Scroll Speed:">
+            <FormItem :key="4" label="scrollSpeed">
                 <select style="width: 80px" v-model.number="scrollSpeed">
                     <option v-for="item in scrollSpeedEnum" :value="item.speed">
-                        {{ item.desc }}
+                        {{ $i18n(item.desc) }}
                     </option>
                 </select>
             </FormItem>
 
-            <!-- TODO choose display screen -->
-            <FormItem :key="6" label="Display for Output">
+            <FormItem :key="6" label="displayForOutput">
                 <select style="min-width: 120px" v-model.number="display">
                     <option v-for="(item, index) in displayArray" :value="item.id">
                         Display {{ index + 1 }} ({{ item.size.width }} x {{ item.size.height }})
@@ -36,7 +35,7 @@
                 </select>
             </FormItem>
 
-            <FormItem :key="7" label="Preview:">
+            <FormItem :key="7" label="preview">
                 <input type="checkbox" v-model="preview">
             </FormItem>
         </Form>
@@ -47,10 +46,8 @@
     import Form from "./components/Form";
     import FormItem from "./components/FormItem";
     import electron, {ipcRenderer} from 'electron';
-    import testData from './test-data';
 
     const config = electron.remote.getGlobal('__config');
-    const appLocal = electron.remote.app.getLocale();
 
     export default {
         name: "DanmuDisplay",
@@ -71,9 +68,9 @@
                 fontOpacity: config.fontOpacity,
                 scrollSpeed: config.scrollSpeed,
                 scrollSpeedEnum: [
-                    {speed: 100, desc: 'Slow'},
-                    {speed: 200, desc: 'Default'},
-                    {speed: 400, desc: 'Fast'}
+                    {speed: 100, desc: 'scrollSpeedSlow'},
+                    {speed: 200, desc: 'scrollSpeedDefault'},
+                    {speed: 400, desc: 'scrollSpeedFast'}
                 ],
                 pauseOnMouseHover: config.pauseOnMouseHover,
                 preview: false,
@@ -124,27 +121,20 @@
                 ipcRenderer.send('window-danmu-move', value);
             },
             preview: function (value) {
-                // determine the user's language
-                let language = 'en';
-                for (const key in testData) {
-                    if (key === appLocal) {
-                        language = key;
-                        break;
-                    }
-                }
+                const previewData = this.$i18n('previewData');
 
                 if (value) {
                     // start the scheduled task
                     let i = 0;
                     this.intervalId = setInterval(() => {
-                        const url = `http://${config.localServerHost}:${config.localServerPort}/?msg=${testData[language][i]}`;
+                        const url = `http://${config.localServerHost}:${config.localServerPort}/?msg=${previewData[i]}`;
                         fetch(url)
                             .then(response => response.ok
-                                ? Promise.resolve() :
-                                Promise.reject(`request failed, response status: ${response.status}`)
+                                ? Promise.resolve()
+                                : Promise.reject(`request failed, response status: ${response.status}`)
                             )
                             .catch(console.error);
-                        if (++i === testData[language].length) {
+                        if (++i === previewData.length) {
                             i = 0;
                         }
                     }, 200);

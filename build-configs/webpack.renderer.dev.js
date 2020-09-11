@@ -22,7 +22,6 @@ module.exports = merge(baseConfig, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Danmu',
       filename: 'danmu.html',
       template: './public/renderer.html',
       chunks: ['danmu'],
@@ -34,7 +33,6 @@ module.exports = merge(baseConfig, {
       }
     }),
     new HtmlWebpackPlugin({
-      title: 'Preferences',
       filename: 'preferences.html',
       template: './public/renderer.html',
       chunks: ['preferences'],

@@ -70,7 +70,6 @@ class CreekTray {
   }];
 
   constructor() {
-    console.log('app.getLocale: ' + app.getLocale());
     this.tray = new Tray(logo);
     this.tray.setToolTip('Creek');
     if (global.__config.startupState) {

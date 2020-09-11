@@ -1,7 +1,7 @@
 <template>
     <div class="form-item" :class="{disabled: disabled}">
         <div class="label">
-            <span>{{ label }}</span>
+            <span>{{ $i18n(label) }}:</span>
         </div>
 
         <div class="input">

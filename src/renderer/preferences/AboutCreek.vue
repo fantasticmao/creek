@@ -4,7 +4,7 @@
 
         <p class="name">Creek</p>
 
-        <p class="version">Version 1.0.0</p>
+        <p class="version">{{ $i18n('currentVersion') }} {{ version }}</p>
 
         <p class="github" @click="handleClickGitHub">https://github.com/fantasticmao/creek/</p>
 
@@ -15,12 +15,14 @@
 <script>
     import {shell} from 'electron';
     import logoUrl from '../../static/icon-white.iconset/icon_64x64.png';
+    import packageJson from '../../../package.json';
 
     export default {
         name: "AboutCreek",
         data: function () {
             return {
-                logoUrl: logoUrl
+                logoUrl: logoUrl,
+                version: packageJson.version
             }
         },
         methods: {

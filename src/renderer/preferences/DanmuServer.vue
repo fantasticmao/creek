@@ -1,16 +1,16 @@
 <template>
     <div class="danmu-server">
         <Form>
-            <FormItem :key="1" label="Enable Local Server:">
+            <FormItem :key="1" label="enableLocalServer">
                 <input type="checkbox" v-model="enableLocalServer">
             </FormItem>
 
-            <FormItem :key="2" label="Local Server Port:" :disabled="!enableLocalServer">
+            <FormItem :key="2" label="localServerPort" :disabled="!enableLocalServer">
                 <input type="number" style="width: 45px" placeholder="9508"
                        v-model.lazy.number="localServerPort" :disabled="!enableLocalServer">
             </FormItem>
 
-            <FormItem :key="3" label="Remote Server URL:" :disabled="enableLocalServer">
+            <FormItem :key="3" label="remoteServerURL" :disabled="enableLocalServer">
                 <input type="url" style="width: 155px" placeholder="https://example.com"
                        v-model.lazy="remoteServerUrl" :disabled="enableLocalServer">
             </FormItem>

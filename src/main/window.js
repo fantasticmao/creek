@@ -1,6 +1,7 @@
-import {BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, screen} from 'electron';
 import logger from './logger';
 import {getEnsureDisplay} from "./config";
+import {i18n, MODULE_PREFERENCES} from '../common/i18n';
 
 /**
  * Danmu window
@@ -58,6 +59,7 @@ class ConfigWindow extends BrowserWindow {
     super({
       width: 472,
       height: 292,
+      title: i18n(app.getLocale(), MODULE_PREFERENCES).title,
       webPreferences: {
         nodeIntegration: true,
         devTools: process.env.DEV
