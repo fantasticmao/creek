@@ -7,8 +7,9 @@ class CreekTrayWords {
   turnOff;
   checkForUpdates;
   preferences;
-  aboutCreek;
-  quiteCreek;
+  help;
+  about;
+  quite;
 
   constructor(options) {
     this.stateOn = options.stateOn;
@@ -17,8 +18,9 @@ class CreekTrayWords {
     this.turnOff = options.turnOff;
     this.checkForUpdates = options.checkForUpdates;
     this.preferences = options.preferences;
-    this.aboutCreek = options.aboutCreek;
-    this.quiteCreek = options.quiteCreek;
+    this.help = options.help;
+    this.about = options.about;
+    this.quite = options.quite;
   }
 }
 
@@ -79,8 +81,9 @@ const allLanguages = {
       turnOff: 'Turn Creek Off',
       checkForUpdates: 'Check for Updates...',
       preferences: 'Preferences...',
-      aboutCreek: 'About Creek',
-      quiteCreek: 'Quite Creek'
+      help: 'Help',
+      about: 'About',
+      quite: 'Quite'
     }),
     'preferences': new CreekPreferencesWords({
       title: 'Preferences',
@@ -155,8 +158,9 @@ const allLanguages = {
       turnOff: '关闭 Creek',
       checkForUpdates: '检查更新...',
       preferences: '偏好设置...',
-      aboutCreek: '关于 Creek',
-      quiteCreek: '退出 Creek'
+      help: '帮助',
+      about: '关于',
+      quite: '退出'
     }),
     'preferences': new CreekPreferencesWords({
       title: '偏好设置',

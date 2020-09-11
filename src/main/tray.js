@@ -60,12 +60,15 @@ class CreekTray {
     accelerator: 'Command+,',
     click: () => this.createConfigWindow('display')
   }, {
-    label: this.trayWords.aboutCreek,
+    label: this.trayWords.help,
+    click: () => shell.openExternal('https://github.com/fantasticmao/creek/wiki/Help')
+  }, {
+    label: this.trayWords.about,
     click: () => this.createConfigWindow('about')
   }, {
     type: 'separator'
   }, {
-    label: this.trayWords.quiteCreek,
+    label: this.trayWords.quite,
     accelerator: 'Command+Q', role: 'quit'
   }];
 
