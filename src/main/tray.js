@@ -1,12 +1,14 @@
-import {app, Menu, nativeImage, shell, Tray} from 'electron';
+import {app, Menu, nativeImage, nativeTheme, shell, Tray} from 'electron';
 import CreekServer from './server';
 import {ConfigWindow, DanmuWindow} from './window';
 import {i18n, MODULE_TRAY} from '../common/i18n';
-import logoUrl from '../resources/icon-white.iconset/icon_16x16.png';
+import logoWhiteUrl from '../resources/icon-white.iconset/icon_16x16.png';
+import logoDarkUrl from '../resources/icon-dark.iconset/icon_16x16.png';
 import onUrl from '../resources/on.png';
 import offUrl from '../resources/off.png';
 
-const logo = nativeImage.createFromDataURL(logoUrl);
+const logoWhite = nativeImage.createFromDataURL(logoWhiteUrl);
+const logoDark = nativeImage.createFromDataURL(logoDarkUrl);
 const on = nativeImage.createFromDataURL(onUrl);
 const off = nativeImage.createFromDataURL(offUrl);
 
@@ -73,7 +75,11 @@ class CreekTray {
   }];
 
   constructor() {
-    this.tray = new Tray(logo);
+    this.tray = new Tray(nativeTheme.shouldUseDarkColors ? logoWhite : logoDark);
+    // add event listeners for system theme updated
+    nativeTheme.on('updated', () => {
+      this.tray.setImage(nativeTheme.shouldUseDarkColors ? logoWhite : logoDark);
+    });
     this.tray.setToolTip('Creek');
     if (global.__config.startupState) {
       this.turnOn();

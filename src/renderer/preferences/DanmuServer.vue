@@ -1,5 +1,5 @@
 <template>
-    <div class="danmu-server">
+    <div class="danmu-server" :style="{'color': this.$store.state.theme.color.font}">
         <Form>
             <FormItem :key="1" label="enableLocalServer">
                 <input type="checkbox" v-model="enableLocalServer">
@@ -55,8 +55,6 @@
 
 <style scoped>
     .danmu-server {
-        /* font color */
-        color: #DFDFDF;
         opacity: 0.85;
     }
 </style>

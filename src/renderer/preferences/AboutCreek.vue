@@ -1,6 +1,6 @@
 <template>
-    <div class="about-creek">
-        <div class="logo"><img :src="logoUrl" alt="logo"></div>
+    <div class="about-creek" :style="{'color': this.$store.state.theme.color.font}">
+        <div class="logo"><img :src="this.$store.state.theme.logo.url" alt="logo"></div>
 
         <p class="name">Creek</p>
 
@@ -14,14 +14,12 @@
 
 <script>
     import {shell} from 'electron';
-    import logoUrl from '../../resources/icon-white.iconset/icon_64x64.png';
     import packageJson from '../../../package.json';
 
     export default {
         name: "AboutCreek",
         data: function () {
             return {
-                logoUrl: logoUrl,
                 version: packageJson.version
             }
         },
@@ -35,8 +33,6 @@
 
 <style scoped>
     .about-creek {
-        /* font color */
-        color: #DFDFDF;
         opacity: 0.85;
 
         /* css flex layout */
@@ -54,6 +50,10 @@
     .about-creek .logo {
         width: 64px;
         height: 64px;
+    }
+
+    .about-creek .logo img {
+        width: 100%;
     }
 
     .about-creek .name {

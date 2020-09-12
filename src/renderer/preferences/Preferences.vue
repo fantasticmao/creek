@@ -1,25 +1,28 @@
 <template>
     <div class="preferences">
-        <div class="header">
+        <div class="header" :style="{
+            'background-color': this.$store.state.theme.color.head,
+            'border-color': this.$store.state.theme.color.head_border
+        }">
             <Toolbar>
-                <ToolbarItem :key="1" label="display" :icon="iconDisplay"
+                <ToolbarItem :key="1" label="display" :icon="this.$store.state.theme.icon.display"
                              :active="route === 'display'"
                              @click.native="handleClickToolbarItem('display')">
                 </ToolbarItem>
 
-                <ToolbarItem :key="2" label="server" :icon="iconServer"
+                <ToolbarItem :key="2" label="server" :icon="this.$store.state.theme.icon.server"
                              :active="route === 'server'"
                              @click.native="handleClickToolbarItem('server')">
                 </ToolbarItem>
 
-                <ToolbarItem :key="3" label="about" :icon="iconAbout"
+                <ToolbarItem :key="3" label="about" :icon="this.$store.state.theme.icon.about"
                              :active="route === 'about'"
                              @click.native="handleClickToolbarItem('about')">
                 </ToolbarItem>
             </Toolbar>
         </div>
 
-        <div class="main">
+        <div class="main" :style="{'background-color': this.$store.state.theme.color.main}">
             <router-view></router-view>
         </div>
     </div>
@@ -28,10 +31,6 @@
 <script>
     import Toolbar from "./components/Toolbar";
     import ToolbarItem from "./components/ToolbarItem";
-
-    import IconDisplay from '../../resources/display.svg';
-    import IconServer from '../../resources/server.svg';
-    import IconAbout from '../../resources/about.svg';
 
     import {ipcRenderer} from 'electron';
 
@@ -47,9 +46,6 @@
         data: function () {
             return {
                 route: defaultRoute,
-                iconDisplay: IconDisplay,
-                iconServer: IconServer,
-                iconAbout: IconAbout
             }
         },
         methods: {
@@ -92,13 +88,11 @@
     }
 
     .header {
-        background-color: #464646;
         width: 100%;
-        border-bottom: 1px solid #000000;
+        border-bottom: 1px solid;
     }
 
     .main {
-        background-color: #2D2D2D;
         width: 100%;
         box-sizing: border-box;
         padding: 20px;

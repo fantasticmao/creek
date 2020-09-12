@@ -1,5 +1,5 @@
 <template>
-    <div class="danmu-display">
+    <div class="danmu-display" :style="{'color': this.$store.state.theme.color.font}">
         <Form>
             <FormItem :key="1" label="fontSize">
                 <select style="width: 80px" v-model.number="fontSize">
@@ -46,11 +46,9 @@
     import Form from "./components/Form";
     import FormItem from "./components/FormItem";
     import electron, {ipcRenderer} from 'electron';
-    import logoUrl from '../../resources/icon-white.iconset/icon_64x64.png';
 
     const config = electron.remote.getGlobal('__config');
     const dialog = electron.remote.dialog;
-    const nativeImage = electron.remote.nativeImage;
 
     export default {
         name: "DanmuDisplay",
@@ -103,7 +101,7 @@
                         message: this.$i18n('preview_Message'),
                         buttons: [this.$i18n('preview_TurnOn'), this.$i18n('preview_Cancel')],
                         defaultId: 0,
-                        icon: nativeImage.createFromDataURL(logoUrl)
+                        icon: this.$store.state.theme.logo.image
                     });
                     if (selectButtonId !== 0) { // Cancel
                         event.preventDefault();
@@ -177,8 +175,6 @@
 
 <style scoped>
     .danmu-display {
-        /* font color */
-        color: #DFDFDF;
         opacity: 0.85;
     }
 </style>

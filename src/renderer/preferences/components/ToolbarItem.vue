@@ -1,5 +1,8 @@
 <template>
-    <div class="toolbar-item" :class="{active: active}">
+    <div class="toolbar-item" :style="{
+        'color': this.$store.state.theme.color.font,
+        'background-color': active ? this.$store.state.theme.color.toolbar_item_active : ''
+    }">
         <div class="icon">
             <img :src="icon" alt="icon">
         </div>
@@ -38,8 +41,6 @@
         height: 54px;
         border-radius: 5px;
 
-        /* font color */
-        color: #DFDFDF;
         opacity: 0.85;
 
         /* css grid layout */
@@ -47,10 +48,6 @@
         grid-template-rows: 36px 1fr;
         justify-items: center;
         align-items: center;
-    }
-
-    .active {
-        background-color: #585856;
     }
 
     .toolbar-item .icon {
