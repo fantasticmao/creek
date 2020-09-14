@@ -48,10 +48,10 @@ class CreekServer {
       return;
     }
     this.server = this.app.listen(port, host, () =>
-        logger.debug('server', 'start server...')
+      logger.debug('server', 'start server...')
     );
     this.server.on('close', () =>
-        logger.debug('server', 'close local server...')
+      logger.debug('server', 'close local server...')
     );
   }
 

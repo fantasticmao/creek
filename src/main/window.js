@@ -30,7 +30,7 @@ class DanmuWindow extends BrowserWindow {
     this.setIgnoreMouseEvents(process.env.PROD);
     this.setAlwaysOnTop(process.env.PROD, 'pop-up-menu');
     this.loadFile('./dist/danmu.html')
-        .then(() => logger.debug('window', 'create danmu window...'));
+      .then(() => logger.debug('window', 'create danmu window...'));
     this.on('closed', () => logger.debug('window', 'close danmu window...'));
 
     /*
@@ -68,7 +68,7 @@ class ConfigWindow extends BrowserWindow {
     });
     this.once('ready-to-show', () => this.show());
     this.loadFile('./dist/preferences.html', {query: {defaultRoute: route}})
-        .then(() => logger.debug('window', 'create config window...'));
+      .then(() => logger.debug('window', 'create config window...'));
     this.on('closed', () => logger.debug('window', 'close config window...'));
   }
 }

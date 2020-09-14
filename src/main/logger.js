@@ -23,8 +23,8 @@ const ansiConstants = {
 
 function getColorCode(color, bold) {
   return bold
-      ? `${ansiConstants.escStart}${ansiConstants.style.bold}${ansiConstants.colors[color]}${ansiConstants.escEnd}`
-      : `${ansiConstants.escStart}${ansiConstants.style.unbold}${ansiConstants.colors[color]}${ansiConstants.escEnd}`;
+    ? `${ansiConstants.escStart}${ansiConstants.style.bold}${ansiConstants.colors[color]}${ansiConstants.escEnd}`
+    : `${ansiConstants.escStart}${ansiConstants.style.unbold}${ansiConstants.colors[color]}${ansiConstants.escEnd}`;
 }
 
 const redCode = getColorCode('red', true);

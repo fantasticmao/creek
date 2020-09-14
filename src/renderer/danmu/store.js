@@ -57,13 +57,11 @@ const store = new Vuex.Store({
 });
 
 // add event listeners for config modification
-for (const key in config) {
-  if (config.hasOwnProperty(key)) {
-    ipcRenderer.on(key, (event, value) => {
+Object.keys(config)
+  .forEach(key => ipcRenderer.on(key, (event, value) => {
       console.debug(`config updated in renderer processes, key: ${key}, value: ${value}`);
       store.commit(key, value);
-    });
-  }
-}
+    })
+  );
 
 export default store;

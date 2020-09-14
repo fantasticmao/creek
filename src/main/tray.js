@@ -1,4 +1,4 @@
-import {app, Menu, nativeImage, nativeTheme, shell, Tray} from 'electron';
+import {app, BrowserWindow, dialog, Menu, nativeImage, nativeTheme, shell, Tray} from 'electron';
 import CreekServer from './server';
 import {ConfigWindow, DanmuWindow} from './window';
 import {i18n, MODULE_TRAY} from '../common/i18n';
@@ -62,8 +62,24 @@ class CreekTray {
     accelerator: 'Command+,',
     click: () => this.createConfigWindow('display')
   }, {
+    type: 'submenu',
     label: this.trayWords.help,
-    click: () => shell.openExternal('https://github.com/fantasticmao/creek/wiki/Help')
+    submenu: [{
+      label: this.trayWords.help_Question1,
+      click: () => dialog.showMessageBox({
+        message: this.trayWords.help_Question1,
+        detail: this.trayWords.help_Answer1.replace('#{port}', global.__config.localServerPort)
+      })
+    }, {
+      label: this.trayWords.help_Question2,
+      click: () => dialog.showMessageBox({
+        message: this.trayWords.help_Question2,
+        detail: this.trayWords.help_Answer2
+      })
+    }, {
+      label: this.trayWords.help_MoreQuestions,
+      click: () => shell.openExternal('https://github.com/fantasticmao/creek/wiki/Help')
+    }]
   }, {
     label: this.trayWords.about,
     click: () => this.createConfigWindow('about')

@@ -95,7 +95,7 @@ class CreekConfig {
     const config = JSON.parse(json);
     for (const key in config) {
       if (config.hasOwnProperty(key) && this.hasOwnProperty(key)
-          && config[key]) {
+        && config[key]) {
         this[key] = config[key];
       }
     }
@@ -129,7 +129,7 @@ export default CreekConfig;
 export function getEnsureDisplay(displayId) {
   if (displayId !== 0) {
     const ensureDisplay = screen.getAllDisplays()
-        .filter(display => display.id === displayId);
+      .filter(display => display.id === displayId);
     if (ensureDisplay.length === 1) {
       return ensureDisplay[0];
     } else {

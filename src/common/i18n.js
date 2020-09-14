@@ -1,4 +1,7 @@
-import logger from "../main/logger";
+import logger from '../main/logger';
+import {getIpAddress} from '../common/system';
+
+const ip = getIpAddress()[0];
 
 class CreekTrayWords {
   stateOn;
@@ -8,6 +11,11 @@ class CreekTrayWords {
   checkForUpdates;
   preferences;
   help;
+  help_Question1;
+  help_Answer1;
+  help_Question2;
+  help_Answer2;
+  help_MoreQuestions;
   about;
   quite;
 
@@ -19,6 +27,11 @@ class CreekTrayWords {
     this.checkForUpdates = options.checkForUpdates;
     this.preferences = options.preferences;
     this.help = options.help;
+    this.help_Question1 = options.help_Question1;
+    this.help_Answer1 = options.help_Answer1;
+    this.help_Question2 = options.help_Question2;
+    this.help_Answer2 = options.help_Answer2;
+    this.help_MoreQuestions = options.help_MoreQuestions;
     this.about = options.about;
     this.quite = options.quite;
   }
@@ -33,11 +46,14 @@ class CreekPreferencesWords {
   fontColor;
   fontOpacity;
   scrollSpeed;
-  scrollSpeedSlow;
-  scrollSpeedDefault;
-  scrollSpeedFast;
+  scrollSpeed_Slow;
+  scrollSpeed_Default;
+  scrollSpeed_Fast;
   displayForOutput;
   preview;
+  preview_Message;
+  preview_TurnOn;
+  preview_Cancel;
   previewData;
   enableLocalServer;
   localServerPort;
@@ -82,6 +98,19 @@ const allLanguages = {
       checkForUpdates: 'Check for Updates...',
       preferences: 'Preferences...',
       help: 'Help',
+      help_Question1: 'How to send a danmu message',
+      help_Answer1: `Creek has internally implemented a simple danmu service in the Local Area Network, which supports accepting and saving danmu data. If you don't want to troublesome a self-built danmu service, you can select "Enable local service" in "Preferences" -> "Services" to support users to send danmu in the Local Area Network.
+
+In the "Enable Local Service" mode, users can send danmu messages by accessing the interface http://${ip}:#{port}/?msg=\${msg}. However, it should be noted that the local service can only work well within the Local Area Network (LAN). If users need to send danmu messages through the Wide Area Network (WAN), you need to build a danmu service by yourself that can be accessed in the WAN.
+
+In the "Disable local service" mode, that is, when using the remote self-built danmu service, the user needs to push the danmu data in accordance with the specifications of the self-built service.`,
+      help_Question2: 'How to self-build the danmu service',
+      help_Answer2: `Sending danmu messages by users and getting danmu messages by Creek is a typical scenario of "(multi) producer-(single) consumer" mode. Considering the simplicity of the self-built danmu service, it is a convention to use HTTP/HTTPS protocol in the communication process of "User - Danmu Service - Creek" instead of other protocols such as WebSocket or customized based on TCP.
+
+First, the self-built danmu service needs to provide an interface for pushing danmu messages. Normally, this interface should use POST method, but considering simplicity in scenarios such as Webhook, using GET method is also acceptable. This interface is provided for users, it can be packaged into a nice HTML page or a more convenient IM robot.
+
+Second, the self-built danmu service needs to provide an interface for obtaining danmu messages. Creek obtains the danmu data using the HTTP rotation training scheme based on the "pull mode", and the rotation interval is 1 second. You need to ensure that the danmu messages will not be lost or be duplicate consumed, and you need to configure the URL address of this interface in "Preferences" -> "Services" -> "Remote Service URL".`,
+      help_MoreQuestions: 'More information...',
       about: 'About',
       quite: 'Quite'
     }),
@@ -159,6 +188,19 @@ const allLanguages = {
       checkForUpdates: '检查更新...',
       preferences: '偏好设置...',
       help: '帮助',
+      help_Question1: '如何发送一条弹幕消息',
+      help_Answer1: `Creek 内部实现了一个基于局域网的简易弹幕服务，支持弹幕数据的接收和存储。当您不希望大费周章地自建弹幕服务时，可以在「偏好设置」->「服务」中勾选「启用本地服务」，即可支持用户在局域网内发送弹幕。
+
+在「启用本地服务」模式下，用户通过访问 http://${ip}:#{port}/?msg=\${msg} 接口，便可发送弹幕消息。但需要注意，本地服务只能在局域网（LAN）内正常工作，如果用户需要通过广域网（WAN）来发送弹幕消息，则需要您自行搭建可在广域网中访问的弹幕服务。
+
+当「禁用本地服务」模式下，即使用远程的自建弹幕服务时，用户需要按照自建服务的规范来推送弹幕数据。`,
+      help_Question2: '如何自建弹幕服务',
+      help_Answer2: `用户发送弹幕消息和 Creek 获取弹幕消息是一个典型的「（多）生产者 - （单）消费者」模式的场景。考虑到自建弹幕服务的简单性，约定在「用户 - 弹幕服务 - Creek」通讯过程中均使用 HTTP/HTTPS 协议，而不是其它诸如 WebSocket 或者基于 TCP 定制的协议。
+
+首先，自建弹幕服务需要提供一个推送弹幕消息的接口。规范地来说，这个接口需要使用 POST 方法，但是考虑到在 Webhook 等场景下的简单性，使用 GET 方法也是可行的。这个接口是为用户提供的，它可以被包装成一个好看的 HTML 页面或者是更加方便的 IM 机器人。
+
+其次，自建弹幕服务需要提供一个获取弹幕消息的接口。Creek 在获取弹幕数据时，采用基于「拉模式」的 HTTP 轮训方案，轮训间隔时间是 1 秒。您需要保证弹幕消息不会被丢失和被重复消费，并且需要在「偏好设置」->「服务」->「远程服务 URL」中配置这个接口的 URL 地址。`,
+      help_MoreQuestions: '更多信息...',
       about: '关于',
       quite: '退出'
     }),
@@ -215,7 +257,7 @@ const allLanguages = {
         "把永远爱你写进诗的结尾",
         "你是我唯一想要的了解"
       ],
-      enableLocalServer: '启动本地服务',
+      enableLocalServer: '启用本地服务',
       localServerPort: '本地服务端口',
       remoteServerURL: '远程服务 URL',
       currentVersion: '当前版本',
