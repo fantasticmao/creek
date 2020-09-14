@@ -98,7 +98,7 @@ const allLanguages = {
       checkForUpdates: 'Check for Updates...',
       preferences: 'Preferences...',
       help: 'Help',
-      help_Question1: 'How to send a danmu message',
+      help_Question1: 'How to send danmu messages',
       help_Answer1: `Creek has internally implemented a simple danmu service in the Local Area Network, which supports accepting and saving danmu data. If you don't want to troublesome a self-built danmu service, you can select "Enable local service" in "Preferences" -> "Services" to support users to send danmu in the Local Area Network.
 
 In the "Enable Local Service" mode, users can send danmu messages by accessing the interface http://${ip}:#{port}/?msg=\${msg}. However, it should be noted that the local service can only work well within the Local Area Network (LAN). If users need to send danmu messages through the Wide Area Network (WAN), you need to build a danmu service by yourself that can be accessed in the WAN.
@@ -188,7 +188,7 @@ Second, the self-built danmu service needs to provide an interface for obtaining
       checkForUpdates: '检查更新...',
       preferences: '偏好设置...',
       help: '帮助',
-      help_Question1: '如何发送一条弹幕消息',
+      help_Question1: '如何发送弹幕消息',
       help_Answer1: `Creek 内部实现了一个基于局域网的简易弹幕服务，支持弹幕数据的接收和存储。当您不希望大费周章地自建弹幕服务时，可以在「偏好设置」->「服务」中勾选「启用本地服务」，即可支持用户在局域网内发送弹幕。
 
 在「启用本地服务」模式下，用户通过访问 http://${ip}:#{port}/?msg=\${msg} 接口，便可发送弹幕消息。但需要注意，本地服务只能在局域网（LAN）内正常工作，如果用户需要通过广域网（WAN）来发送弹幕消息，则需要您自行搭建可在广域网中访问的弹幕服务。

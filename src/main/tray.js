@@ -77,6 +77,8 @@ class CreekTray {
         detail: this.trayWords.help_Answer2
       })
     }, {
+      type: 'separator'
+    }, {
       label: this.trayWords.help_MoreQuestions,
       click: () => shell.openExternal('https://github.com/fantasticmao/creek/wiki/Help')
     }]
