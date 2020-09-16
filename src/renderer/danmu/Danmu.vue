@@ -1,13 +1,13 @@
 <template>
     <div class="danmu" ref="danmu" :style="styleObject">
-        <DanmuChannel v-for="index in channelArray" ref="channel"
+        <DanmuChannel v-for="(item, index) in channelArray" ref="channel"
                       :key="index" :index="index">
         </DanmuChannel>
     </div>
 </template>
 
 <script>
-    import DanmuChannel from "./components/DanmuChannel";
+    import DanmuChannel, {STATE_FREE} from "./components/DanmuChannel";
 
     export default {
         name: 'Danmu',
@@ -26,15 +26,11 @@
              * calculate the number of rows
              */
             channelRows: function () {
-                const displayHeight = this.containerHeight - this.channelGap;
+                const displayHeight = Math.max(this.containerHeight - this.channelGap, 0);
                 return Math.floor(displayHeight / (this.$store.state.font.size + this.channelGap));
             },
             channelArray: function () {
-                const arr = [];
-                for (let i = 0; i < this.channelRows; i++) {
-                    arr.push(i);
-                }
-                return arr;
+                return new Array(this.channelRows);
             },
             styleObject: function () {
                 return {
@@ -48,11 +44,26 @@
         },
         methods: {
             /**
-             * get container client height
-             * @return {Number} container height
+             * choose an available free channel
+             * @return {Promise<channel>} channel component
              */
-            getContainerHeight: function () {
-                return this.$refs['danmu'].clientHeight;
+            selectChannel: async function () {
+                let resultChannel = null;
+                for (let i = 0; i < this.channelRows; i++) {
+                    const channel = this.$refs['channel'][i];
+                    if (channel.state === STATE_FREE) {
+                        resultChannel = channel;
+                        break;
+                    }
+                }
+
+                if (resultChannel !== null) {
+                    return Promise.resolve(resultChannel);
+                } else {
+                    return new Promise(resolve =>
+                        setTimeout(() => resolve(this.selectChannel()), 300)
+                    );
+                }
             },
             /**
              * batch send danmu messages
@@ -67,28 +78,6 @@
                             channel.sendMessage(message);
                         });
                 });
-            },
-            /**
-             * choose an available free channel
-             * @return {Promise<channel>} channel component
-             */
-            selectChannel: async function () {
-                let resultChannel = null;
-                for (let i = 0; i < this.channelRows; i++) {
-                    const channel = this.$refs['channel'][i];
-                    if (channel.state === 'free') {
-                        resultChannel = channel;
-                        break;
-                    }
-                }
-
-                if (resultChannel !== null) {
-                    return Promise.resolve(resultChannel);
-                } else {
-                    return new Promise(resolve =>
-                        setTimeout(() => resolve(this.selectChannel()), 300)
-                    );
-                }
             },
             /**
              * fetch danmu messages from danmu server
@@ -117,9 +106,9 @@
         },
         mounted: function () {
             // div element's height
-            this.containerHeight = this.getContainerHeight();
+            this.containerHeight = this.$refs['danmu'].clientHeight;
             window.addEventListener('resize', () => {
-                this.containerHeight = this.getContainerHeight();
+                this.containerHeight = this.$refs['danmu'].clientHeight;
             });
 
             // fetch danmu messages as scheduled

@@ -51,7 +51,7 @@ class CreekServer {
       logger.debug('server', 'start server...')
     );
     this.server.on('close', () =>
-      logger.debug('server', 'close local server...')
+      logger.debug('server', 'close server...')
     );
   }
 

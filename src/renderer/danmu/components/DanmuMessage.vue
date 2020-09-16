@@ -8,6 +8,11 @@
 </template>
 
 <script>
+    const STATE_START = 'start';
+    const STATE_RUNNING = 'running';
+    const STATE_PAUSED = 'paused';
+    const STATE_END = 'end';
+
     export default {
         name: "DanmuMessage",
         props: {
@@ -19,7 +24,7 @@
         data: function () {
             return {
                 messageWidth: 0,
-                state: 'start' // 'start' -> 'paused' -> 'end'
+                state: STATE_START // 'start' -> 'paused' -> 'end'
             };
         },
         computed: {
@@ -66,7 +71,7 @@
              */
             const transitionTimeout = 100; // ms
             setTimeout(() => {
-                this.state = 'end';
+                this.state = STATE_END;
             }, transitionTimeout);
 
             // trigger message debut event, will be used to send the next message in the queue

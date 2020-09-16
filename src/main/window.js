@@ -19,7 +19,7 @@ class DanmuWindow extends BrowserWindow {
       // specify false to create a Frameless Window
       frame: process.env.DEV,
       // makes the window transparent
-      transparent: process.env.PROD,
+      transparent: true,
       webPreferences: {
         nodeIntegration: true,
         devTools: process.env.DEV

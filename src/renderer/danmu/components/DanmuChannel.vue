@@ -12,6 +12,10 @@
 <script>
     import DanmuMessage from "./DanmuMessage";
 
+    const STATE_FREE = 'free';
+    const STATE_BUSY = 'busy';
+    export {STATE_FREE, STATE_BUSY};
+
     export default {
         name: "DanmuChannel",
         components: {
@@ -29,17 +33,10 @@
                 messageCount: 0,
                 messageArray: [],
                 msgQueue: [],
-                state: 'free' // 'free' or 'busy'
+                state: STATE_FREE // 'free' or 'busy'
             };
         },
         methods: {
-            /**
-             * get channel client width
-             * @return {Number} channel width
-             */
-            getChannelWidth: function () {
-                return this.$refs['danmu-channel'].clientWidth;
-            },
             /**
              * send a danmu messages
              * @param {String} message msg text
@@ -49,7 +46,7 @@
             },
             handleMessageDebut: function (message) {
                 console.debug(`msg debut, channelId: ${this.index}, msgId: ${message.id}, msgText: ${message.msg}`);
-                this.state = 'free';
+                this.state = STATE_FREE;
             },
             handleMessageTransitionend: function () {
                 const message = this.messageArray.shift();
@@ -58,13 +55,13 @@
         },
         mounted: function () {
             // channel element's width
-            this.channelWidth = this.getChannelWidth();
+            this.channelWidth = this.$refs['danmu-channel'].clientWidth;
             window.addEventListener('resize', () => {
-                this.channelWidth = this.getChannelWidth();
+                this.channelWidth = this.$refs['danmu-channel'].clientWidth;
             });
 
             setInterval(() => {
-                if (this.state === 'free' && this.msgQueue.length !== 0) {
+                if (this.state === STATE_FREE && this.msgQueue.length !== 0) {
                     const msgId = this.messageCount++;
                     const msgText = this.msgQueue.shift();
                     this.messageArray.push({
@@ -72,7 +69,7 @@
                         msg: msgText
                     });
                     console.info(`msg start, channelId: ${this.index}, msgId: ${msgId}, msgText: ${msgText}`);
-                    this.state = 'busy';
+                    this.state = STATE_BUSY;
                 }
             }, 100);
         }
