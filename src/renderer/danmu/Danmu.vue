@@ -86,7 +86,7 @@
             fetchMessage: async function () {
                 let url;
                 if (this.$store.state.server.enableLocalServer) {
-                    url = `http://${this.$store.state.server.localServerHost}:${this.$store.state.server.localServerPort}/dump?timestamp=${new Date().getTime()}`;
+                    url = `http://localhost:${this.$store.state.server.localServerPort}/dump?timestamp=${new Date().getTime()}`;
                 } else {
                     url = `${this.$store.state.server.remoteServerUrl}?timestamp=${new Date().getTime()}`;
                 }

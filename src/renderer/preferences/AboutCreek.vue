@@ -43,7 +43,7 @@
     }
 
     .about-creek p {
-        margin-top: 10px;
+        margin-top: 8px;
         margin-bottom: 0;
     }
 
